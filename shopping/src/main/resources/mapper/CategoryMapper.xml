@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shopping.dao.CategoryDao">
+	<select id = "selectAll" resultType="Category">
+		SELECT *
+		FROM category
+	</select>
+
+	<select id="findCategoryById" resultType="Category">
+		SELECT *
+		FROM category
+		<if test= "_parameter != null">
+			WHERE category_id = #{category_id}
+		</if>
+	</select>
+
+	<select id="findParentsById" resultType="Category">
+		WITH RECURSIVE temp_table AS(
+			SELECT * FROM category WHERE category_id = #{category_id}
+			UNION ALL
+			SELECT c.category_id,c.category_name,c.master_category_id FROM category AS c
+  		    	INNER jOIN temp_table ON c.category_id = temp_table.master_category_id
+		)
+		SELECT * FROM temp_table;
+	</select>
+</mapper>
+
+
+
+
+
+

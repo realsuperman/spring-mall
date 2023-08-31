@@ -8,8 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface CategoryDao {
-    public List<Category> selectAll();
-    public Category findCategoryById(Long categoryId);
-
-    public List<Category> findParentsById(long categoryId);
+    List<Category> selectAll();
+    Category findCategoryById(Long categoryId);
+    List<Category> findParentsById(long categoryId);
 }

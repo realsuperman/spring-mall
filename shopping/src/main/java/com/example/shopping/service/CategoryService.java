@@ -1,4 +1,4 @@
-package com.example.shopping.service.category;
+package com.example.shopping.service;
 
 import com.example.shopping.dao.CategoryDao;
 import lombok.RequiredArgsConstructor;

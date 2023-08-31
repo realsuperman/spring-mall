@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shopping.dao.cargo.CargoDao">
+	<select id="selectAll" resultType="cargo">
+		SELECT * FROM cargo
+	</select>
+
+	<insert id="insertCargo" parameterType="java.util.List">
+		INSERT INTO cargo (item_id, status_id)
+		VALUES
+		<foreach item="cargo" collection="list" separator=",">
+			(#{cargo.itemId}, #{cargo.statusId})
+		</foreach>
+	</insert>
+	<update id="updateCargoStatusByCargoId" parameterType="hashmap">
+		UPDATE cargo SET status_id = #{statusId} WHERE cargo_id = #{cargoId}
+	</update>
+	<select id="selectCountByItemId" parameterType="Long" resultType="Long">
+		SELECT COUNT(*) AS `count`
+		FROM cargo AS c
+			JOIN item AS i ON i.item_id = c.item_id
+		WHERE c.item_id = #{itemId} AND c.status_id != 4
+	</select>
+	<select id="selectCargoToDeliver" parameterType="hashmap" resultType="Cargo">
+		SELECT cargo_id AS cargoId, item_id AS itemId, status_id AS statusId
+		FROM cargo AS c
+		WHERE item_id = #{itemId} AND status_id != 4
+		LIMIT #{itemQuantity}
+	</select>
+	<select id="selectCargoByItemIdAndNotStatusId" parameterType="hashmap" resultType="Cargo">
+		SELECT cargo_id AS cargoId, item_id AS itemId, status_id AS statusId
+		FROM cargo
+		WHERE item_id = #{itemId} AND status_id != #{statusId}
+	</select>
+
+	<select id = "cargoCnt" resultType="Integer">
+			SELECT COUNT(*)
+			FROM cargo
+			WHERE item_id = #{item_id} AND status_Id != 4
+	</select>
+
+	<select id="selectStock" resultType="StockDto" parameterType="com.example.shopping.dto.cargo.StockSearchDto">
+		SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt
+		FROM item i
+		LEFT JOIN cargo c ON i.item_id = c.item_id
+		WHERE c.status_id=3
+		<if test="itemName != null and itemName != ''">
+			AND i.item_name LIKE #{itemName}
+		</if>
+		GROUP BY i.item_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+	<select id="countStock" resultType="Integer" parameterType="com.example.shopping.dto.cargo.StockSearchDto">
+		SELECT count(*)
+		FROM(
+				SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt
+				FROM item i
+				LEFT JOIN cargo c ON i.item_id = c.item_id
+				WHERE c.status_id=3
+				<if test="itemName != null and itemName != ''">
+					AND i.item_name LIKE #{itemName}
+				</if>
+				GROUP BY i.item_id
+			) t
+	</select>
+
+	<select id="selectStockStat" resultType="CargoDto" parameterType="com.example.shopping.dto.cargo.StockSearchDto">
+		SELECT c.cargo_id AS cargoId,i.item_name AS itemName, c.status_id AS statusId
+		FROM cargo c join item i on c.item_id = i.item_id
+		<if test="itemName != null and itemName != ''">
+			WHERE i.item_name LIKE #{itemName}
+		</if>
+		ORDER BY c.cargo_id
+		LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+	<select id="countStockStat" resultType="Integer" parameterType="com.example.shopping.dto.cargo.StockSearchDto">
+		SELECT count(*)
+		FROM(
+				SELECT c.cargo_id AS cargoId,i.item_name AS itemName, c.status_id AS statusId
+				FROM cargo c join item i on c.item_id = i.item_id
+				<if test="itemName != null and itemName != ''">
+					WHERE i.item_name LIKE #{itemName}
+				</if>
+		) t
+	</select>
+
+	<update id="updateCargoStat" parameterType="com.example.shopping.dto.cargo.StockSearchDto">
+		UPDATE cargo
+		SET status_id = #{statusId}
+		WHERE cargo_id = #{cargoId}
+	</update>
+</mapper>

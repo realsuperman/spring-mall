@@ -68,14 +68,10 @@
         });
 
         $("#itemForm").submit(function(event) {
-            if(!checkForm()){ // 프론트 체크
+            /*if(!checkForm()){ // 프론트 체크
                 event.preventDefault();
                 return;
-            }
-
-            if(!validation()){ // 백엔드 체크
-                event.preventDefault();
-            }
+            }*/
         })
 
         window.onpageshow = function(event) { // 뒤로가기 누르면 모든 item 제거

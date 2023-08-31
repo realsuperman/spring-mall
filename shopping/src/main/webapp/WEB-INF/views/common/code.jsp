@@ -19,21 +19,17 @@
     }
 
     function createMap(data, resultMap, isSpecialKey){
-        let entries = data.match(/\d+;[^=]+=\[[^\]]+\]/g);
+        Object.entries(data).forEach(([key, value]) => {
+            let [setId, setName] = key.split(';');
 
-        entries.forEach((entry) => {
-            let [keyPart, valuePart] = entry.split('=');
-            let [setId, setName] = keyPart.split(';');
-
-            let itemStrings = valuePart.slice(1, -1).split(', ');
-            let itemArray = itemStrings.map((itemString) => {
+            let itemArray = value.map((itemString) => {
                 let [itemId, itemName] = itemString.split(';');
                 return itemId + ';' + itemName;
             });
 
-            if(isSpecialKey){
+            if (isSpecialKey) {
                 resultMap.set(setId + ';' + setName, itemArray);
-            }else{
+            } else {
                 resultMap.set(setName, itemArray);
             }
         });
@@ -55,7 +51,7 @@
             }
         }
 
-        map.forEach((value, key) => {
+            map.forEach((value, key) => {
             categories.push({ key, value });
         });
 

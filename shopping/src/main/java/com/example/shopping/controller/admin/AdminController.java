@@ -3,13 +3,16 @@ package com.example.shopping.controller.admin;
 import com.example.shopping.service.cargo.CargoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -23,30 +26,30 @@ public class AdminController {
     }
 
     @GetMapping("/{path}")
-    public ResponseEntity getStat(@PathVariable String path) {
-        if(!Arrays.asList(validPath).contains(path)){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid path"); // 404 응답 코드 설정
-        }
+    public ResponseEntity getStat(@PathVariable String path, @RequestParam(required = false) String itemName,
+                                  @RequestParam(required = false) Long page) {
+        /*if(!Arrays.asList(validPath).contains(path)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid path");
+        }*/
 
-        /*Object count;
+        Object count;
         Object itemList;
 
         if("/stat".equals(path)){
-            count = cargoService.getCountStockStat(request.getParameter("itemName"));
-            itemList = cargoService.selectStockStat(Long.valueOf(request.getParameter("page")), request.getParameter("itemName"));
-        }else if("/stock".equals(path)){
-            count = cargoService.getCountStock(request.getParameter("itemName"));
-            itemList = cargoService.selectStock(Long.valueOf(request.getParameter("page")), request.getParameter("itemName"));
+            count = cargoService.getCountStockStat(itemName);
+            itemList = cargoService.selectStockStat(page, itemName);
         }else{
-
+            count = cargoService.getCountStock(itemName);
+            itemList = cargoService.selectStock(page, itemName);
         }
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("count", count);
-        response.put("itemList", itemList);
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("count", count);
+        responseMap.put("itemList", itemList);
 
-        return ResponseEntity.ok(response);*/
-        return null;
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(responseMap);
     }
 
 }

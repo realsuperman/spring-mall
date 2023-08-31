@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class ExceptionAdvice {
@@ -24,6 +23,6 @@ public class ExceptionAdvice {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }*/
-        return ResponseEntity.badRequest().body("DB 작업 중 에러가 발생했습니다.");
+        return ResponseEntity.badRequest().body("DB 작업 중 에러가 발생했습니다."); // TODO 페이지로 떨굴까?
     }
 }

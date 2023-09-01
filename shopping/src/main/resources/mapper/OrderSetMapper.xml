@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shopping.dao.order.OrderSetDao">
+    <!-- TODO : 동적 쿼리로 pagination -->
+    <select id="getConsumerOrderSetDtoList" parameterType="Long" resultType="OrderSetDto">
+        SELECT os.order_set_id,
+               os.order_code,
+               os.order_address,
+               os.order_phone_number,
+               COUNT(DISTINCT (i.item_id)) AS distinctItemCount,
+               MIN(i.item_name) AS representative
+        FROM order_detail AS od
+                 JOIN order_set AS os ON od.order_set_id = os.order_set_id
+                 JOIN cargo AS c ON od.cargo_id = c.cargo_id
+                 JOIN item AS i ON i.item_id = c.item_id
+        WHERE os.consumer_id = #{consumer_id}
+        GROUP BY os.order_set_id
+    </select>
+
+    <insert id="insertOrderSet" parameterType="OrderSet" useGeneratedKeys="true" keyColumn="order_set_id" keyProperty="orderSetId">
+        INSERT INTO order_set(consumer_id, order_time, order_code, order_address, order_phone_number)
+        VALUES(#{consumerId}, NOW(), #{orderCode}, #{orderAddress}, #{orderPhoneNumber})
+    </insert>
+
+    <select id="selectByOrderSetId" parameterType="Long" resultType="OrderSet">
+        SELECT *
+        FROM order_set
+        WHERE order_set_id = #{orderSetId}
+    </select>
+</mapper>
+
+
+
+
+
+

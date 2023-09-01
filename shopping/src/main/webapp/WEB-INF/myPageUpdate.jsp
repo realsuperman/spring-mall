@@ -58,7 +58,7 @@
 
 <%-- 사용자 정보 조회 --%>
 <!-- Form START -->
-<form class="user-update-form" action="/user/info" method="post">
+<form class="user-update-form">
     <div class="row2">
         <!-- Contact detail -->
         <div class="col-xxl-8 mb-5 mb-xxl-0">
@@ -114,6 +114,7 @@
 </div>
 
 
+
 <!-- 비밀번호 변경 Modal -->
 <div class="modal top fade" id="myModal" tabindex="-1"  role="dialog" aria-hidden="true">
     <div class="modal-dialog" style="width: 300px;">
@@ -125,7 +126,7 @@
                 <p class="py-2">
                     기존 비밀번호와 변경할 비밀번호를 입력하세요.
                 </p>
-                <form class="pass-update-form" action="/user/pass" method="post">
+                <form class="pass-update-form">
 
                     <div class="form-group">
                         <label for="original_password">기존 비밀번호</label>
@@ -161,7 +162,84 @@
     <%@ include file="errorMsgAlert.jsp" %>
 </div>
 
-<!-- Breadcrumb Section End -->
+<script>
+    function userInfoUpdate() {
+
+        let UpdateUserRequest = {
+            updatePhoneNumber: $('#phone_number').val(),
+            updateAddress: $('#address').val(),
+            updateAddressDetail: $('#address_detail').val()
+        };
+
+        console.log(UpdateUserRequest);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("PATCH", "/user/info", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    window.location.href = "/user/my-page"
+                } else if (xhr.status === 400){
+                    alert(xhr.responseText);
+                } else {
+                    alert("사용자 정보 수정에 실패하였습니다.");
+                }
+            }
+        };
+        xhr.send(JSON.stringify(UpdateUserRequest));
+
+    }
+
+
+    function userPassUpdate() {
+
+        let UpdatePasswordRequest = {
+            originalPassword: $('#original_password').val(),
+            updatePassword: $('#update_password').val(),
+        };
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("PATCH", "/user/pass", true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    window.location.href = "/user/my-page"
+                } else if (xhr.status === 400){
+                    alert(xhr.responseText);
+                } else {
+                    alert("사용자 정보 수정에 실패하였습니다.");
+                }
+            }
+        };
+        xhr.onerror = function () {
+            alert("요청 실패하였습니다.");
+        };
+        xhr.send(JSON.stringify(UpdatePasswordRequest));
+    }
+
+    $(".user-update-form").submit(function(event) {
+        event.preventDefault();
+        userInfoUpdate()
+    })
+
+    $(".pass-update-form").submit(function(event) {
+        event.preventDefault();
+        userPassUpdate();
+    })
+
+</script>
+
+<%-- 유저 관련 script --%>
+<script  src="../static/js/userscript.js"></script>
+<script src="../static/js/password-modal-script.js"></script>
+<script src="../static/js/address-modal-script.js"></script>
+<%--<script src="../../static/js/user-update-script.js.js"></script>--%>
+
+<%-- 다음 주소 api --%>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="../static/js/address-api.js"></script>
 
 <script src="../static/js_test/jquery-3.3.1.min.js"></script>
 <script src="../static/js_test/bootstrap.min.js"></script>
@@ -174,15 +252,6 @@
 <script src="../static/js_test/owl.carousel.min.js"></script>
 <script src="../static/js_test/main.js"></script>
 
-<%-- 유저 관련 script --%>
-<script  src="../../static/js/userscript.js"></script>
-<script  src="../../static/js/address-api.js"></script>
-<script src="../../static/js/password-modal-script.js"></script>
-<script src="../../static/js/address-modal-script.js"></script>
-
-<%-- 다음 주소 api --%>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="../../static/js/address-api.js"></script>
 
 </body>
 

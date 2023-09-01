@@ -112,13 +112,6 @@
     <%@ include file="errorMsgAlert.jsp" %>
   </div>
 
-<%--  <script>--%>
-<%--    var errorMsg = ${errorMsg};--%>
-<%--    if (errorMsg) {--%>
-<%--      alert(errorMsg);--%>
-<%--    }--%>
-<%--  </script>--%>
-
 
 
 </div>

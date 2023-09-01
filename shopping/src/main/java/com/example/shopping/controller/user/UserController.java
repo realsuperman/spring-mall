@@ -84,22 +84,16 @@ public class UserController extends HttpServlet {
 
         try {
             if (bindingResult.hasErrors()) {
-                model.addAttribute("errorMsg",  bindingResult.getFieldErrors());
+                model.addAttribute("errorMsg", bindingResult.getFieldErrors().get(0).getDefaultMessage());
                 return "userLoginRegister";
-
-//                for (FieldError error : bindingResult.getFieldErrors()) {
-//                    model.addAttribute("errorMsg_" + error.getField(), error.getDefaultMessage());
-//                }
-//                redirectAttributes.addFlashAttribute("errorMsg", bindingResult.getFieldErrors());
-//            return "redirect:/user/sign-page";
             }
             userService.signUp(signUpRequest);
+
             return "redirect:/";
         } catch (MessageException e) {
             model.addAttribute("errorMsg", e.getMessage());
             return "userLoginRegister";
         }
-
     }
 
     @GetMapping("/logout")
@@ -117,8 +111,8 @@ public class UserController extends HttpServlet {
             userService.updatePassword(email, updatePasswordRequest);
             Consumer updatedConsumer = userService.readUserOne(email);
             httpSession.setAttribute("login_user", updatedConsumer);
-            return "myPage";
 
+            return "myPage";
         } catch (MessageException e) {
             model.addAttribute("errorMsg", e.getMessage());
             return "myPageUpdate";

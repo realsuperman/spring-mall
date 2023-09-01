@@ -1,6 +1,5 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 <html lang="en" >
@@ -64,14 +63,12 @@
               <label for="email">Email</label>
               <input type="email" name="userEmail" id="email" class="email">
               <span class="error"></span>
-              <span class="error"><form:errors path="userEmail"/></span>
             </div>
 
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" name="password" id="password" class="pass">
               <span class="error"></span>
-              <span class="error"><form:errors path="password"/></span>
             </div>
 
             <div class="form-group">
@@ -84,20 +81,19 @@
               <label for="name">Name</label>
               <input type="text" name="userName" id="name" class="name">
               <span class="error"></span>
-              <span class="error"><form:errors path="userName"/></span>
             </div>
 
             <div class="form-group">
               <label for="phone">Phone Number</label>
               <input type="text" name="phoneNumber" id="phone">
-              <span class="error"><form:errors path="phoneNumber"/></span>
+              <span class="error"></span>
             </div>
 
             <div class="form-group">
               <label for="address">Address</label>
               <input type="text" name="address" id="address" class="address">
               <input type="text" name="addressDetail" id="address_detail">
-              <span class="error"><form:errors path="address"/></span>
+              <span class="error"></span>
             </div>
 
             <div class="CTA">
@@ -116,12 +112,12 @@
     <%@ include file="errorMsgAlert.jsp" %>
   </div>
 
-  <script>
-    var errorMsg = ${errorMsg};
-    if (errorMsg) {
-      alert(errorMsg);
-    }
-  </script>
+<%--  <script>--%>
+<%--    var errorMsg = ${errorMsg};--%>
+<%--    if (errorMsg) {--%>
+<%--      alert(errorMsg);--%>
+<%--    }--%>
+<%--  </script>--%>
 
 
 
@@ -134,7 +130,6 @@
 <%-- 다음 주소 api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="../../static/js/address-api.js"></script>
-
 
 </body>
 </html>

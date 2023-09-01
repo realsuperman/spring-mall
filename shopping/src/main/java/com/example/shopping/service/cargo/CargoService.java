@@ -22,7 +22,7 @@ public class CargoService {
     }
 
     public int getCountStock(String itemName) {
-        return cargoDao.countStock(setStockSearchDto(null,itemName));
+        return cargoDao.getCountStock(setStockSearchDto(null,itemName));
     }
 
     public List<CargoDto> selectStockStat(Long page, String itemName) {

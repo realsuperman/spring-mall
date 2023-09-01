@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
 		LIMIT #{pageSize} OFFSET #{offset}
 	</select>
 
-	<select id="countStock" resultType="Integer" parameterType="com.example.shopping.dto.cargo.StockSearchDto">
+	<select id="getCountStock" resultType="Integer" parameterType="com.example.shopping.dto.cargo.StockSearchDto">
 		SELECT count(*)
 		FROM(
 				SELECT i.item_id AS itemId, i.item_name AS itemName, COUNT(*) AS cnt

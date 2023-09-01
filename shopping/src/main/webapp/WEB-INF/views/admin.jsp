@@ -8,9 +8,18 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="common/code.jsp" %>
 <%@include file="common/uploadPath.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
     $(document).ready(function() {
+        let alertDiv = document.getElementById("alertDiv");
+        let spans = alertDiv.getElementsByTagName("span");
+
+        for (let i = 0; i < spans.length; i++) {
+            let errorMessage = spans[i].textContent.trim();
+            alert(errorMessage);
+        }
+
         $('#add').html("상품 추가");
         $('#control').html("재고 관리");
         $('#stat').html("상품 상태 관리");
@@ -33,7 +42,7 @@
                         processData: false,
                         success: function(response) {
                             $("#image" + i).attr("src", downPrefix + response + downSuffix);
-                            $("#image" + i + "-name").val(response);
+                            $("#image" + i + "Name").val(response);
                         },
                     });
                 }
@@ -41,7 +50,7 @@
         }
 
         $("#largeCategory").on("change", function() { // 대분류 변경 이벤트
-            clearCategory($("#detailCategory"));
+            clearCategory($("#categoryId"));
             if($('#largeCategory').val()==''){
                 clearCategory($('#middleCategory'));
                 return;
@@ -56,7 +65,7 @@
 
         $("#middleCategory").on("change", function() { // 중분류 변경 이벤트
             if($('#middleCategory').val()==''){
-                clearCategory($('#detailCategory'));
+                clearCategory($('#categoryId'));
                 return;
             }
 
@@ -64,14 +73,14 @@
             const selectedValue = selectedOption.val();
             const selectedContent = selectedOption.text();
             const combinedValue = selectedValue + ";" + selectedContent;
-            initializeCategorySelect($("#detailCategory"), getCategories(combinedValue), false);
+            initializeCategorySelect($("#categoryId"), getCategories(combinedValue), false);
         });
 
         $("#itemForm").submit(function(event) {
-            /*if(!checkForm()){ // 프론트 체크
+            if(!checkForm()){ // 프론트 체크
                 event.preventDefault();
                 return;
-            }*/
+            }
         })
 
         window.onpageshow = function(event) { // 뒤로가기 누르면 모든 item 제거
@@ -112,11 +121,11 @@
     }
 
     function checkForm(){
-        let itemName = $('#item_name').val();
-        let itemPrice = $('#item_price').val();
-        let itemQuantity = $('#item_quantity').val();
-        let itemDesc = $('#item_desc').val();
-        let detailCategory = $('#detailCategory').val();
+        let itemName = $('#itemName').val();
+        let itemPrice = $('#itemPrice').val();
+        let itemQuantity = $('#itemQuantity').val();
+        let itemDescription = $('#itemDescription').val();
+        let categoryId = $('#categoryId').val();
 
         // itemName은 비어있으면 안됨
         if (itemName.trim() === "") {
@@ -124,8 +133,8 @@
             return false;
         }
 
-        // itemDesc는 비어있으면 안됨
-        if (itemDesc.trim() === "") {
+        // itemDescription는 비어있으면 안됨
+        if (itemDescription.trim() === "") {
             alert("상품 설명을 입력해주세요.");
             return false;
         }
@@ -142,14 +151,14 @@
             return false;
         }
 
-        // itemDesc는 최대 512자리인지 체크
-        if (itemDesc.length > 512) {
+        // itemDescription는 최대 512자리인지 체크
+        if (itemDescription.length > 512) {
             alert("상품 설명은 최대 512자까지 입력 가능합니다.");
             return false;
         }
 
         for (let i = 1; i <= 6; i++) {
-            let image = $('#image' + i +"-name").val();
+            let image = $('#image' + i +"name").val();
             if (image == "") {
                 if(i==1){
                     alert("섬네일을 필수 입니다.")
@@ -160,7 +169,7 @@
             }
         }
 
-        if (detailCategory.trim() === "") {
+        if (categoryId.trim() === "") {
             alert("상세 카테고리를 선택해주세요.");
             return false;
         }
@@ -171,17 +180,17 @@
 
     function validation(){
         let formData = {
-            itemName : $('#item_name').val(),
-            itemPrice: $('#item_price').val(),
-            itemQuantity: $('#item_quantity').val(),
-            itemDesc : $('#item_desc').val(),
-            image1Name : $('#image1-name').val(),
-            image2Name : $('#image2-name').val(),
-            image3Name : $('#image3-name').val(),
-            image4Name : $('#image4-name').val(),
-            image5Name : $('#image5-name').val(),
-            image6Name : $('#image6-name').val(),
-            category : $('#detailCategory').val()
+            itemName : $('#itemName').val(),
+            itemPrice: $('#itemPrice').val(),
+            itemQuantity: $('#itemQuantity').val(),
+            itemDescription : $('#itemDescription').val(),
+            image1Name : $('#image1Name').val(),
+            image2Name : $('#image2Name').val(),
+            image3Name : $('#image3Name').val(),
+            image4Name : $('#image4Name').val(),
+            image5Name : $('#image5Name').val(),
+            image6Name : $('#image6Name').val(),
+            category : $('#categoryId').val()
         };
         let returnValue;
 
@@ -201,13 +210,13 @@
     }
 
     function clearForm(){
-        $('#item_name').val("");
-        $('#item_price').val("");
-        $('#item_quantity').val("");
-        $('#item_desc').val("");
-        $('#detailCategory').val("");
+        $('#itemName').val("");
+        $('#itemPrice').val("");
+        $('#itemQuantity').val("");
+        $('#itemDescription').val("");
+        $('#categoryId').val("");
         for (let i = 1; i <= 6; i++) {
-            $('#image' + i +"-name").val("");
+            $('#image' + i +"Name").val("");
             $('#fileInput'+i).val("");
         }
         initCategory();
@@ -276,62 +285,65 @@
         <div class="center">
             <form id="itemForm" action="/item" method="POST">
                 <b>제품명</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input class="rounded-input" type="text" name="item_name" id="item_name" placeholder="제품명을 입력하세요." maxlength="127"><br><br>
+                <input class="rounded-input" type="text" name="itemName" id="itemName" placeholder="제품명을 입력하세요." maxlength="127" value="${item.itemName}">
+                <br><br>
                 <b>가격</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input class="rounded-input" type="number" name="item_price" id="item_price" placeholder="가격을 입력하세요" min="0" max="1000000"><br><br>
+                <input class="rounded-input" type="number" name="itemPrice" id="itemPrice" placeholder="가격을 입력하세요" min="0" max="1000000" value="${item.itemPrice}">
+                <br><br>
                 <b>제품 갯수</b>&nbsp;
-                <input class="rounded-input" type="number" name="item_quantity" id="item_quantity" placeholder="제품 갯수를 입력하세요" min="0" max="100"><br><br>
+                <input class="rounded-input" type="number" name="itemQuantity" id="itemQuantity" placeholder="제품 갯수를 입력하세요" min="0" max="100" value="${item.itemQuantity}">
+                <br><br>
 
                 <span style="float:left; margin-top:5px;"><b>제품 설명</b></span>&nbsp;
-                <textarea class="rounded-textArea" name="item_desc" id="item_desc" class="rounded-textarea" placeholder="제품 상세를 입력하세요" maxlength="512"></textarea><br><br>
+                <textarea class="rounded-textArea" name="itemDescription" id="itemDescription" class="rounded-textarea" placeholder="제품 상세를 입력하세요" maxlength="512">${item.itemDescription}</textarea>
+                <br><br>
 
 
                 <span style="float: left"><b>썸네일</b></span>
-                <input type="text" style="display: none" id="image1-name" name="image1-name"><img style="width:500px; height: 200px; margin-left: 30px;" id="image1"><br><br>
+                <input type="text" style="display: none" id="image1Name" name="image1Name"><img style="width:500px; height: 200px; margin-left: 30px;" id="image1" src="${item.image1Name}"><br><br>
                 <input style="margin-left: 250px" type="file" id="fileInput1">
 
                 <br><br>
                 <div style="display: flex; flex-direction: row;">
                     <div style="width: 100px;">
                         <span><b>사진1</b></span>
-                        <input type="text" style="display: none" id="image2-name" name="image2-name"><img style="width:100px; height: 100px;" id="image2"><br><br>
+                        <input type="text" style="display: none" id="image2Name" name="image2Name"><img style="width:100px; height: 100px;" id="image2" src="${item.image2Name}"><br><br>
                         <input type="file" id="fileInput2">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진2</b></span>
-                        <input type="text" style="display: none" id="image3-name" name="image3-name"><img style="width:100px; height: 100px;" id="image3"><br><br>
+                        <input type="text" style="display: none" id="image3Name" name="image3Name"><img style="width:100px; height: 100px;" id="image3" src="${item.image3Name}"><br><br>
                         <input type="file" id="fileInput3">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진3</b></span>
-                        <input type="text" style="display: none" id="image4-name" name="image4-name"><img style="width:100px; height: 100px;" id="image4"><br><br>
+                        <input type="text" style="display: none" id="image4Name" name="image4Name"><img style="width:100px; height: 100px;" id="image4" src="${item.image4Name}"><br><br>
                         <input type="file" id="fileInput4">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진4</b></span>
-                        <input type="text" style="display: none" id="image5-name" name="image5-name"><img style="width:100px; height: 100px;" id="image5"><br><br>
+                        <input type="text" style="display: none" id="image5Name" name="image5Name"><img style="width:100px; height: 100px;" id="image5" src="${item.image5Name}"><br><br>
                         <input type="file" id="fileInput5">
                     </div>
 
                     <div style="width: 100px; margin-left: 20px;">
                         <span><b>사진5</b></span>
-                        <input type="text" style="display: none" id="image6-name" name="image6-name"><img style="width:100px; height: 100px;" id="image6"><br><br>
+                        <input type="text" style="display: none" id="image6Name" name="image6Name"><img style="width:100px; height: 100px;" id="image6" src="${item.image6Name}"><br><br>
                         <input type="file" id="fileInput6">
                     </div>
                 </div>
 
                 <br><br>
-
                 <div>
                     <select style="width: 185px" name="largeCategory" id="largeCategory">
                     </select>
                     <select style="width: 185px" name="middleCategory" id="middleCategory">
                         <option value="">선택</option>
                     </select>
-                    <select style="width: 185px" name="detailCategory" id="detailCategory">
+                    <select style="width: 185px" name="categoryId" id="categoryId">
                         <option value="">선택</option>
                     </select>
                 </div>
@@ -342,5 +354,14 @@
         </div>
     </div>
 </div>
+
+<c:set var="errorMessages" value="${errorMessages}" />
+
+<div style="display: none" id="alertDiv">
+    <c:forEach items="${errorMessages}" var="errorMessage">
+        <span>${errorMessage}</span><br>
+    </c:forEach>
+</div>
+
 </body>
 </html>

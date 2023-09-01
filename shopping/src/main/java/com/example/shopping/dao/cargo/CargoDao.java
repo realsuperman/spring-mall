@@ -17,7 +17,6 @@ import java.util.Map;
 @Repository
 public interface CargoDao {
     List<Cargo> selectAll();
-
     int insertCargo(List<Cargo> cargoList);
 
     int updateCargoStatusByCargoId(Map<String, Long> map);
@@ -25,13 +24,12 @@ public interface CargoDao {
     long selectCountByItemId(Long itemId);
 
     List<Cargo> selectCargoToDeliver(Map<String, Long> map);
-
     List<Cargo> selectCargoByItemIdAndNotStatusId(Map<String, Long> map);
-    int cargoCnt(SqlSession session, long itemId);
+    int cargoCnt(long itemId);
 
     List<StockDto> selectStock(StockSearchDto stockSearchDto);
 
-    int countStock(StockSearchDto stockSearchDto);
+    int getCountStock(StockSearchDto stockSearchDto);
 
     List<CargoDto> selectStockStat(StockSearchDto stockSearchDto);
 

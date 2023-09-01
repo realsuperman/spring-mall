@@ -51,7 +51,7 @@
             }
         }
 
-            map.forEach((value, key) => {
+        map.forEach((value, key) => {
             categories.push({ key, value });
         });
 

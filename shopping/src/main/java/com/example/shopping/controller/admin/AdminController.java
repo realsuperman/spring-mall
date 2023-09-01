@@ -1,17 +1,18 @@
 package com.example.shopping.controller.admin;
 
+import com.example.shopping.dto.cargo.StockStatDto;
 import com.example.shopping.service.cargo.CargoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -26,16 +27,22 @@ public class AdminController {
     }
 
     @GetMapping("/{path}")
-    public ResponseEntity getStat(@PathVariable String path, @RequestParam(required = false) String itemName,
-                                  @RequestParam(required = false) Long page) {
-        /*if(!Arrays.asList(validPath).contains(path)){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid path");
-        }*/
+    public String stockAndStat(@PathVariable String path, Model model) {
+        validatePath(path);
+        model.addAttribute("page",path);
+        return "stockAndStat";
+    }
+
+    @GetMapping("/{path}/rest")
+    @ResponseBody
+    public ResponseEntity stockAndStatRest(@PathVariable String path, @RequestParam(required = false) String itemName,
+                        @RequestParam(required = false) Long page){
+        validatePath(path);
 
         Object count;
         Object itemList;
 
-        if("/stat".equals(path)){
+        if("stat".equals(path)){
             count = cargoService.getCountStockStat(itemName);
             itemList = cargoService.selectStockStat(page, itemName);
         }else{
@@ -50,6 +57,19 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(responseMap);
+    }
+
+    @PatchMapping("/stock/stat")
+    @ResponseBody
+    public ResponseEntity<String> updateStockStat(@RequestBody List<StockStatDto> cargoStatusArray){
+        cargoService.updateStockStat(cargoStatusArray);
+        return ResponseEntity.ok("SUCCESS");
+    }
+
+    private void validatePath(String path) {
+        if(!Arrays.asList(validPath).contains(path)){
+            throw new RuntimeException();
+        }
     }
 
 }

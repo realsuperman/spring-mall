@@ -14,17 +14,17 @@ import java.sql.Timestamp;
 @ToString
 public class Item {
     private Long itemId;
-    @NotNull(message = "{item.categoryId.notNull}")
+    @NotNull(message = "상세 카테고리는 비어 있을 수 없습니다.")
     private Long categoryId;
-    @NotBlank(message = "{item.itemName.notNull}")
-    @Size(max=127, message = "{item.itemName.maxSize}")
+    @NotBlank(message = "제품명은 비어 있을 수 없습니다.")
+    @Size(max=127, message = "제품명의 최대 사이즈는 127자 입니다")
     private String itemName;
-    @NotNull(message = "{item.itemPrice.notNull}")
-    @Min(value=1, message = "{item.itemPrice.min}")
-    @Max(value=1000000, message = "{item.itemPrice.max}")
+    @NotNull(message = "제품 가격이 비어 있을 수 없습니다.")
+    @Min(value=1, message = "제품 가격의 최소값은 1 이상입니다")
+    @Max(value=1000000, message = "제품 가격의 최대값은 1000000입니다.")
     private Long itemPrice;
-    @NotBlank(message = "{item.itemPrice.notNull}")
-    @Size(max=512, message = "{item.itemDescription.maxSize}")
+    @NotBlank(message = "제품 설명은 비어 있을 수 없습니다.")
+    @Size(max=512, message = "제품 설명의 최대 사이즈는 512자 입니다")
     private String itemDescription;
     private String itemImagePath;
     private Timestamp itemRegisterTime;
@@ -32,25 +32,25 @@ public class Item {
     /**
      * 아래 항목들은 검증을 위한 항목들임
      */
-    @NotBlank(message = "{item.image1.notNull}")
-    @Size(max=170, message = "{item.image1.maxSize}")
-    private String image1name;
-    @NotBlank(message = "{item.image2.notNull}")
-    @Size(max=170, message = "{item.image2.maxSize}")
-    private String image2name;
-    @NotBlank(message = "{item.image3.notNull}")
-    @Size(max=170, message = "{item.image3.maxSize}")
-    private String image3name;
-    @NotBlank(message = "{item.image4.notNull}")
-    @Size(max=170, message = "{item.image4.maxSize}")
-    private String image4name;
-    @NotBlank(message = "{item.image5.notNull}")
-    @Size(max=170, message = "{item.image5.maxSize}")
-    private String image5name;
-    @NotBlank(message = "{item.image6.notNull}")
-    @Size(max=170, message = "{item.image6.maxSize}")
-    private String image6name;
-    @Min(value=1, message = "{item.itemQuantity.min}")
-    @Max(value=100, message = "{item.itemQuantity.max}")
-    private int itemQuantity;
+    @NotBlank(message = "섬네일은 비어 있을 수 없습니다")
+    @Size(max=170, message = "섬네일이 이상합니다")
+    private String image1Name;
+    @NotBlank(message = "이미지1은 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지2가 이상합니다")
+    private String image2Name;
+    @NotBlank(message = "이미지2는 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지2가 이상합니다")
+    private String image3Name;
+    @NotBlank(message = "이미지3은 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지3이 이상합니다")
+    private String image4Name;
+    @NotBlank(message = "이미지4는 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지4가 이상합니다")
+    private String image5Name;
+    @NotBlank(message = "이미지5는 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지5가 이상합니다")
+    private String image6Name;
+    @Min(value=1, message = "수량의 최소 값은 1 이상입니다")
+    @Max(value=100, message = "수량의 최대 값은 100입니다")
+    private Integer itemQuantity;
 }

@@ -44,13 +44,13 @@
 
             Object.keys(statMap).forEach(function(cargoId) {
                 let status = statMap[cargoId];
-                cargoStatusArray.push({ cargoId: cargoId, status: status });
+                cargoStatusArray.push({ cargoId: cargoId, statusId: status });
             });
 
             if (cargoStatusArray.length !== 0) {
                 $.ajax({
-                    url: "/stock/stat",
-                    type: "POST",
+                    url: "/admin/stock/stat",
+                    type: "PATCH",
                     async: false,
                     data: JSON.stringify(cargoStatusArray), // 배열을 JSON으로 변환하여 전송
                     contentType: "application/json", // JSON 타입 설정
@@ -104,12 +104,17 @@
 
         let formData = {
             itemName : $('#searchInput').val(),
-            page : currentPage-1,
-            url : "/"+'<%= mode %>'
+            page : currentPage-1
         };
 
+        let url = "";
+        if('<%= mode %>' == "stat"){
+            url = "/admin/stat/rest";
+        }else{
+            url = "/admin/stock/rest";
+        }
         $.ajax({
-            url:"/stock/list",
+            url:url,
             type:"GET",
             async: false,
             data : formData,
@@ -136,20 +141,13 @@
 
     function drawScreen(inputText){
         let htmlCode = "";
-        let keyData = inputText.match(/"itemList":"\[.*\]"/)[0];
-        let objectArrayString = keyData.match(/\[.*\]/)[0];
-        let objectStrings;
-        if('<%= mode %>' === 'stock'){
-            objectStrings = objectArrayString.match(/StockDto\(.*?\)/g);
-        }else{
-            objectStrings = objectArrayString.match(/CargoDto\(.*?\)/g);
-        }
+        let objectStrings = JSON.parse(inputText).itemList;
 
         let extractedData = objectStrings.map(function(objectString) {
             if('<%= mode %>' === 'stock') {
-                let itemId = objectString.match(/itemId=(\d+)/)[1];
-                let itemName = objectString.match(/itemName=([^,]+)/)[1];
-                let cnt = objectString.match(/cnt=(\d+)/)[1];
+                let itemId = objectString.itemId;
+                let itemName = objectString.itemName;
+                let cnt = objectString.cnt;
                 htmlCode += "<tr>";
                 htmlCode += "<td>";
                 htmlCode += itemId;
@@ -163,9 +161,9 @@
                 htmlCode += "</tr>";
             }else{
                 let cargoStat = getStatus('창고');
-                let cargoId = objectString.match(/cargoId=(\d+)/)[1];
-                let itemName = objectString.match(/itemName=([^,]+)/)[1];
-                let statusId = objectString.match(/statusId=(\d+)/)[1];
+                let cargoId = objectString.cargoId;
+                let itemName = objectString.itemName;
+                let statusId = objectString.statusId;
                 let selectOptions = '';
                 cargoStat.forEach(function(option) {
                     let optionValue = option.value.split(';')[0];

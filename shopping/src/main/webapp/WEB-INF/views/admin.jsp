@@ -79,7 +79,6 @@
         $("#itemForm").submit(function(event) {
             if(!checkForm()){ // 프론트 체크
                 event.preventDefault();
-                return;
             }
         })
 

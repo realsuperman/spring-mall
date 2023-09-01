@@ -13,4 +13,5 @@ public class CartItemDto {
     private String itemImgPaths;
     private Long subTotalPrice;
     private Long cartId;
+    private Boolean isExcluded;
 }

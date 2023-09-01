@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shopping.dao.item.ItemDao">
+	<insert id="insertItem" parameterType="com.example.shopping.domain.item.Item" useGeneratedKeys="true" keyProperty="itemId">
+		INSERT INTO item (category_id, item_name, item_price, item_description, item_image_path, item_register_time)
+		VALUES (#{categoryId}, #{itemName}, #{itemPrice}, #{itemDescription}, #{itemImagePath}, NOW())
+	</insert>
+
+	<select id="selectByKey" resultType="Item" parameterType="long">
+		SELECT * FROM item where item_id = #{itemId};
+	</select>
+
+    <select id="selectItemById" resultType="com.example.shopping.domain.item.Item" parameterType="long">
+        SELECT *
+        FROM item
+        WHERE item_id = #{itemId}
+    </select>
+
+    <select id="getItemCount" resultType="Integer">
+        SELECT COUNT(*)
+        FROM item
+        WHERE category_id = #{categoryId}
+    </select>
+
+    <select id="selectCategoryBest" resultType="categoryBestResponse">
+        WITH RECURSIVE temp_table AS(
+            SELECT category_id FROM category WHERE master_category_id = #{master_category_id}
+            UNION ALL
+            SELECT c.category_id FROM category AS c
+                INNER jOIN temp_table ON c.master_category_id = temp_table.category_id
+        )
+        SELECT item.item_id, category_id, item_name, item_price, item_description, item_image_path, item_register_time, SELL_TABLE.cnt
+        FROM item
+            LEFT JOIN (
+                SELECT item_id, COUNT(*) as cnt
+                FROM order_detail
+                    INNER JOIN cargo ON order_detail.cargo_id = cargo.cargo_id
+                GROUP BY item_id
+            ) as SELL_TABLE
+            ON item.item_id = SELL_TABLE.item_id
+        WHERE item.category_id IN (SELECT * FROM temp_table)
+        ORDER BY cnt DESC
+        LIMIT #{limit};
+    </select>
+
+    <select id="selectCategoryRecent" resultType="categoryRecentResponse" parameterType="CategoryRecentRequest">
+        SELECT item_id, item_price, item_name, item_image_path
+        FROM item
+        WHERE category_id = #{categoryId}
+        ORDER BY item_register_time DESC
+            LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <select id="selectLeafCategories" resultType="Category">
+        SELECT * FROM category
+        WHERE category_id NOT IN
+              (SELECT DISTINCT master_category_id
+               FROM category
+               WHERE master_category_id IS NOT NULL)
+    </select>
+
+</mapper>

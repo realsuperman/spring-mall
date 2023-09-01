@@ -38,6 +38,10 @@ function bestSeller(categoryIdx){
                 '<div id = "bestSellerBody" class = "col-lg-12">' +
                 '<div class="row">'
             for (let i = 0; i < response.length; i++) {
+<<<<<<< HEAD
+=======
+                console.log(response[i].itemImagePath.split(';')[0]);
+>>>>>>> 0086311c938287540ea5b6f65019ccebdb9fe680
                 str +=
 
                     '<div class="col-lg-3 col-md-6 col-sm-6">' +
@@ -57,10 +61,15 @@ function bestSeller(categoryIdx){
                 '</div>' +
                 '</div>' +
                 '<i onClick="bestSeller(bestCategoryIndex-1)" id ="nextButton" class = "fa-solid fa-caret-right fa-5x"/>'
+<<<<<<< HEAD
             $('#bestSeller').append(str);
         },
         error(){
             console.log("ERRRRRRRRR")
+=======
+            console.log($('#bestSeller'))
+            $('#bestSeller').append(str);
+>>>>>>> 0086311c938287540ea5b6f65019ccebdb9fe680
         }
     })
 }

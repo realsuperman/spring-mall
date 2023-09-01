@@ -44,7 +44,7 @@
               <div class="header__top__links">
                 <c:choose>
                   <c:when test="${login_user == null}">
-                    <a href="/user">Login/SignIn</a>
+                    <a href="/user/sign-page">Login/SignIn</a>
                   </c:when>
                   <c:otherwise>
                     <c:choose>
@@ -55,7 +55,7 @@
                         <p style="color: #FFFFFF">${login_user.userName}님, 어서오세요 <${grade}> &nbsp;&nbsp;&nbsp;&nbsp;
                       </c:otherwise>
                     </c:choose>
-                      <span><a href="/logout">LOGOUT</a></span>
+                      <span><a href="/user/logout">LOGOUT</a></span>
                       </p>
                   </c:otherwise>
                 </c:choose>
@@ -81,7 +81,7 @@
           <c:choose>
             <c:when test="${login_user.isAdmin == 0}">
               <div class="header__nav__option">
-                <a href="my-page"><img src="../../../static/main-page/img/icon/마이롯데.png" alt=""></a>
+                <a href="/user/my-page"><img src="../../../static/main-page/img/icon/마이롯데.png" alt=""></a>
                 <a href="/cart"><img src="../../../static/main-page/img/icon/장바구니.png" alt=""></a>
               </div>
             </c:when>

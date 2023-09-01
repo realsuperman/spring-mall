@@ -1,25 +1,30 @@
 package com.example.shopping.controller.item;
 
+
 import com.example.shopping.domain.category.Category;
+import com.example.shopping.domain.item.Item;
 import com.example.shopping.dto.category.CategoryBestResponse;
-import com.example.shopping.service.CategoryService;
-import com.example.shopping.service.ItemService;
+import com.example.shopping.service.category.CategoryService;
+import com.example.shopping.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ItemController {
-
-    private final CategoryService categoryService;
     private final ItemService itemService;
+    private final CategoryService categoryService;
 
     private static final Integer EXPOSE_CATEGORY_CNT = 3;
     private static final Long PREVIEW_ITEM_CNT = 4L;
@@ -69,4 +74,19 @@ public class ItemController {
     // adapter가 responseEntity를 받으면 viewResolver를 타지 않도록 설정되어 있다.
     // adapter가 modelAndView로 결과를 DispatcherServlet에게 전달한다
     // DispatcherServlet은 adapter가 알려준 결과를 보고 viewResolver를 태울지말지 결정한다.
+    @PostMapping
+    public String insertItem(@Valid @ModelAttribute Item item, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            List<String> errorMessages = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+
+            model.addAttribute("errorMessages", errorMessages);
+            return "/admin";
+        }
+
+//        item.setItemImagePath(item.getImage1Name()+";"+item.getImage2Name()+";"+item.getImage3Name()+";" +item.getImage4Name()+";"+item.getImage5Name()+";"+item.getImage6Name());
+//        itemService.insertItem(item, item.getItemQuantity());
+        return "redirect:/admin";
+    }
 }

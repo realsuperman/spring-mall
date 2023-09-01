@@ -116,14 +116,20 @@
                 <div class="cart__total">
                     <h6>Cart total</h6>
                     <ul>
+                        <c:set var="discountRate" value="0" /><!--hard coding.-->
+                        <c:set var="sum" value="0" />
+                        <c:set var="sumDiscount" value="0" />
                         <c:forEach items="${foundItemDtos}" var="cartItem">
+                            <c:set var="discounted" value="${cartItem.subTotalPrice - (cartItem.subTotalPrice * discountRate)}" />
                             <c:if test="${cartItem.isExcluded == false}">
-                                <li>${cartItem.itemName} <span style="color:#424242;font-weight:bolder;font-size:15px;"><fmt:formatNumber value="${cartItem.subTotalPrice}" pattern="#,##0" />원</span></li>
+                                <li>${cartItem.itemName} <span style="color:#424242;font-weight:bolder;font-size:15px;"><fmt:formatNumber value="${discounted}" pattern="#,##0" />원</span></li>
+                                <c:set var="sumDiscount" value="${sumDiscount + (cartItem.subTotalPrice * discountRate)}" />
+                                <c:set var="sum" value="${sum + discounted}" />
                             </c:if>
                         </c:forEach>
                         <li>멤버십등급 <span style="color:#424242;font-weight:bolder;font-size:15px;">다이아 ( <fmt:formatNumber value="10" pattern="0.0" />% <i class="fa-solid fa-caret-down"></i> )</span></li>
-                        <li>상품할인금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> 0 원</span></li>
-                        <li>상품금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> 0 원</span></span></li>
+                        <li>상품할인금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> <fmt:formatNumber value="${sumDiscount}" pattern="#,##0" />원</span></li>
+                        <li>상품금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> <fmt:formatNumber value="${sum}" pattern="#,##0" />원</span></li>
                     </ul>
                     <form id="form-order" action="/order" method="post">
                         <input type="hidden" name="orderItemDtoList" class="input-order"/>

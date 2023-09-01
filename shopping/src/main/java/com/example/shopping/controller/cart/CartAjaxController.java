@@ -27,7 +27,7 @@ public class CartAjaxController {
     private final CartAjaxService cartAjaxService;
     private final CartService cartService;
 
-    @GetMapping("/api/v1/get")
+    @GetMapping("/api/get")
     public String showComponent(Model model, HttpSession session) {
         cart_log.info("Cart Component here");
         Long sessionConsumerId = 2L;//hard coding.
@@ -47,10 +47,21 @@ public class CartAjaxController {
         //HashSet에 uncheck된 itemId 담기
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
         Set<Long> updatedSet = cartAjaxService.addExcludedItemId(excludedItemId, excludedSet);
-
         //세션에 업데이트된 HashSet 저장
         session.setAttribute("excludedSet", updatedSet);
 
-        return "redirect:/sm/c/api/v1/get";
+        return "redirect:/sm/c/api/get";
+    }
+
+    @PostMapping("/api/v2")
+    public String removeUnchecked(@RequestBody Map<String, Object> requestData, HttpSession session) {
+        int includedItemIdInt = (Integer)requestData.get("includedItemId");
+        long includedItemId = Long.valueOf(includedItemIdInt);
+        //HashSet에 check된 itemId 빼기
+        Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
+        excludedSet.remove(includedItemId);
+        //세션에 업데이트된 HashSet 저장
+        session.setAttribute("excludedSet", excludedSet);
+        return "redirect:/sm/c/api/get";
     }
 }

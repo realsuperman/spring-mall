@@ -109,10 +109,8 @@
 
   <!-- 에러 메시지 alert -->
   <div id="errorSection">
-    <%@ include file="errorMsgAlert.jsp" %>
+    <%@ include file="common/errorMsgAlert.jsp" %>
   </div>
-
-
 
 </div>
 <!-- partial -->

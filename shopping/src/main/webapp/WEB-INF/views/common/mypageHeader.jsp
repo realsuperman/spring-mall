@@ -16,14 +16,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../static/css_test/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/css_test/style.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>

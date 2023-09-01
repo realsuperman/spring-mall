@@ -22,14 +22,14 @@
     <link rel="stylesheet" href="../../static/css/profile.css" type="text/css">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../static/css_test/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css_test/style.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -159,7 +159,7 @@
 
 <!-- 에러 메시지 alert -->
 <div id="errorSection">
-    <%@ include file="errorMsgAlert.jsp" %>
+    <%@ include file="common/errorMsgAlert.jsp" %>
 </div>
 
 <script>
@@ -232,25 +232,24 @@
 </script>
 
 <%-- 유저 관련 script --%>
-<script  src="../static/js/userscript.js"></script>
-<script src="../static/js/password-modal-script.js"></script>
-<script src="../static/js/address-modal-script.js"></script>
-<%--<script src="../../static/js/user-update-script.js.js"></script>--%>
+<script  src="../../static/js/userscript.js"></script>
+<script src="../../static/js/password-modal-script.js"></script>
+<script src="../../static/js/address-modal-script.js"></script>
 
 <%-- 다음 주소 api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="../static/js/address-api.js"></script>
+<script src="../../static/js/address-api.js"></script>
 
-<script src="../static/js_test/jquery-3.3.1.min.js"></script>
-<script src="../static/js_test/bootstrap.min.js"></script>
-<script src="../static/js_test/jquery.nice-select.min.js"></script>
-<script src="../static/js_test/jquery.nicescroll.min.js"></script>
-<script src="../static/js_test/jquery.magnific-popup.min.js"></script>
-<script src="../static/js_test/jquery.countdown.min.js"></script>
-<script src="../static/js_test/jquery.slicknav.js"></script>
-<script src="../static/js_test/mixitup.min.js"></script>
-<script src="../static/js_test/owl.carousel.min.js"></script>
-<script src="../static/js_test/main.js"></script>
+<script src="../../static/js/jquery-3.3.1.min.js"></script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<script src="../../static/js/jquery.nice-select.min.js"></script>
+<script src="../../static/js/jquery.nicescroll.min.js"></script>
+<script src="../../static/js/jquery.magnific-popup.min.js"></script>
+<script src="../../static/js/jquery.countdown.min.js"></script>
+<script src="../../static/js/jquery.slicknav.js"></script>
+<script src="../../static/js/mixitup.min.js"></script>
+<script src="../../static/js/owl.carousel.min.js"></script>
+<script src="../../static/js/main.js"></script>
 
 
 </body>

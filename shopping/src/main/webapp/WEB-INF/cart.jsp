@@ -35,7 +35,7 @@
 <body>
 <section class="shopping-cart spad">
     <div class="container">
-        <div class="row">
+        <div class="row" id="std-parents">
             <div class="col-lg-8">
                 <div class="shopping__cart__table">
                     <table>
@@ -47,7 +47,7 @@
                                 <th>Total</th>
                             </tr>
                         </thead>
-                        <tbody id="std-parents">
+                        <tbody>
                             <!-- cart item list start. -->
                             <c:forEach items="${foundItemDtos}" var="cartItem">
                                 <tr>
@@ -116,6 +116,11 @@
                 <div class="cart__total">
                     <h6>Cart total</h6>
                     <ul>
+                        <c:forEach items="${foundItemDtos}" var="cartItem">
+                            <c:if test="${cartItem.isExcluded == false}">
+                                <li>${cartItem.itemName} <span style="color:#424242;font-weight:bolder;font-size:15px;"><fmt:formatNumber value="${cartItem.subTotalPrice}" pattern="#,##0" />원</span></li>
+                            </c:if>
+                        </c:forEach>
                         <li>멤버십등급 <span style="color:#424242;font-weight:bolder;font-size:15px;">다이아 ( <fmt:formatNumber value="10" pattern="0.0" />% <i class="fa-solid fa-caret-down"></i> )</span></li>
                         <li>상품할인금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> 0 원</span></li>
                         <li>상품금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> 0 원</span></span></li>

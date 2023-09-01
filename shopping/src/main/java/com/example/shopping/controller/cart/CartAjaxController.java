@@ -33,7 +33,7 @@ public class CartAjaxController {
         Long sessionConsumerId = 2L;//hard coding.
         List<CartItem> foundedCartItem = cartService.showByConsumerId(sessionConsumerId);
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
-        
+
         List<CartItemDto> foundItemDtos = cartService.mapToDto(foundedCartItem, excludedSet);
         model.addAttribute("foundItemDtos", foundItemDtos);
         return "cart_component";

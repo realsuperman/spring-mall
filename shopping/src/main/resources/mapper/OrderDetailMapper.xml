@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shopping.dao.order.OrderDetailDao">
+    <!-- order set으로부터 배송지 정보(연락처, 배송지 주소) 조회 -->
+    <select id="getOrderInfo" parameterType="Long" resultType="OrderInfoDto">
+        SELECT order_address, order_time, order_phone_number
+        FROM order_set AS os
+        WHERE os.order_set_id = #{orderSetId}
+    </select>
+
+    <!-- 한 사용자의 모든 order_detail의 가격 합 -->
+    <select id="getConsumerTotalBuyPrice" parameterType="Long" resultType="Long">
+        SELECT SUM(buy_price)
+        FROM order_detail AS od
+                 JOIN order_set AS os ON os.order_set_id = od.order_set_id
+        WHERE od.status_id NOT IN (7, 11) AND os.consumer_id = #{consumerId}
+    </select>
+
+    <!-- [{상품명, 수량 (group by), 구매 시점 가격, 상태}]-->
+    <select id="getOrderDetailList" parameterType="Long" resultType="orderDetailDto">
+        SELECT i.item_name, od.buy_price, s.status_name, COUNT(*) AS itemQuantity
+        FROM order_detail AS od
+                 JOIN cargo AS c ON c.cargo_id = od.cargo_id
+                 JOIN item AS i ON i.item_id = c.item_id
+                 JOIN status AS s ON od.status_id = s.status_id
+        WHERE od.order_set_id = #{orderSetId}
+        GROUP BY c.item_id, buy_price, s.status_name
+    </select>
+
+    <!-- 사용자의 order_set을 조회하는 것이 맞는지 검증 -->
+    <select id="getConsumerId" parameterType="Long" resultType="Long">
+        SELECT consumer_id
+        FROM order_set AS os
+        WHERE os.order_set_id = #{orderSetId}
+    </select>
+
+    <!-- OrderCancel.jsp를 위한 취소할 order_detail들을 [{상품명, 수량, 구매 시점 가격, 상태]}의 형태로 표시 -->
+    <select id="getOrdersToCancel" parameterType="Long" resultType="orderCancelDto">
+        SELECT i.item_id, i.item_name, od.buy_price, COUNT(*) AS itemQuantity, s.status_name
+        FROM order_detail AS od
+                 JOIN cargo AS c ON c.cargo_id = od.cargo_id
+                 JOIN item AS i ON i.item_id = c.item_id
+                 JOIN status AS s ON od.status_id = s.status_id
+        WHERE od.order_set_id = #{orderSetId} AND od.status_id = 6
+        GROUP BY c.item_id, buy_price, s.status_name
+    </select>
+
+    <!-- 취소할 order_detaiL_id와 cargo_id를 조회 -->
+    <select id="getCancelOrderDetailIdAndCargoId" parameterType="hashmap" resultType="hashmap">
+        SELECT od.order_detail_id, c.cargo_id
+        FROM order_detail AS od
+                 JOIN cargo AS c on od.cargo_id = c.cargo_id
+        WHERE od.order_set_id = #{orderSetId}
+          AND c.item_id = #{itemId} LIMIT #{itemQuantity}
+    </select>
+
+    <!-- 주문 상세의 상태 변경 -->
+    <update id="updateOrderDetailStatusByOrderDetailId" parameterType="hashmap">
+        UPDATE order_detail SET status_id = #{statusId} WHERE order_detail_id = #{orderDetailId}
+    </update>
+
+    <insert id="insertOrderDetail" parameterType="list">
+        INSERT INTO order_detail(order_set_id, cargo_id, status_id, buy_price)
+        VALUES
+        <foreach item="orderDetail" collection="list" separator=",">
+            (#{orderDetail.orderSetId}, #{orderDetail.cargoId}, #{orderDetail.statusId}, #{orderDetail.buyPrice})
+        </foreach>
+    </insert>
+</mapper>
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.shopping.dao.order.OrderDetailDao">
+
+    <!-- 한 사용자의 모든 order_detail의 가격 합 -->
+    <select id="getConsumerTotalBuyPrice" parameterType="Long" resultType="Long">
+        SELECT SUM(buy_price)
+        FROM order_detail AS od
+            JOIN order_set AS os ON os.order_set_id = od.order_set_id
+        WHERE od.status_id NOT IN (7, 11) AND os.consumer_id = #{consumerId}
+    </select>
+
+</mapper>
+
+
+
+
+
+

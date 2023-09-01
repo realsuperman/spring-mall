@@ -9,4 +9,9 @@
         FROM cart_item
         WHERE consumer_id = #{_parameter}
     </select>
+    <update id="updateItemQuantityByCartId" parameterType="UpdateCartDto">
+        UPDATE cart_item
+        SET item_quantity=#{itemQuantity}
+        WHERE cart_id=#{cartId}
+    </update>
 </mapper>

@@ -3,6 +3,7 @@ package com.example.shopping.service.cart;
 import com.example.shopping.dao.cart.CartDao;
 import com.example.shopping.domain.cart.CartItem;
 import com.example.shopping.dto.cart.CartItemDto;
+import com.example.shopping.dto.cart.CartUpdateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -64,4 +65,11 @@ public class CartService {
         return dtos;
     }
 
+    public void modifyItemQuantity(CartUpdateDto dto) {
+        cartDao.updateItemQuantityByCartId(dto);
+    }
+
+    public CartItem showByCartId(long cartId) {
+        return cartDao.selectByCartId(cartId);
+    }
 }

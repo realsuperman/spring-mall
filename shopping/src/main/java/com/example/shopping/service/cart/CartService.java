@@ -16,14 +16,30 @@ import java.util.Set;
 public class CartService {
     private final CartDao cartDao;
 
+    /**
+     * 현재 로그인한 회원의 장바구니 상품(들) 가져오기
+     * @param sessionConsumerId
+     * @return List<CartItem>
+     */
     public List<CartItem> showByConsumerId(long sessionConsumerId) {
         return cartDao.selectByConsumerId(sessionConsumerId);
     }
 
-    private Set<Long> checkValid(Set<Long> set) {
+    /**
+     * 세션에서 가져온 Set이 null일 시, 새로 만들어주기
+     * @param set
+     * @return SET<Long>
+     */
+    public Set<Long> checkValid(Set<Long> set) {
         return set == null ? new HashSet<Long>() : set;
     }
 
+    /**
+     * carItems를 cartItemDtos로 변환해주기
+     * @param cartItems
+     * @param excludedSet
+     * @return List<CartItemDto>
+     */
     public List<CartItemDto> mapToDto(List<CartItem> cartItems, Set<Long> excludedSet) {
         excludedSet = checkValid(excludedSet);
         List<CartItemDto> dtos = new ArrayList<>();

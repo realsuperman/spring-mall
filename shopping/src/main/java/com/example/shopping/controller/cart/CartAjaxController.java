@@ -46,9 +46,10 @@ public class CartAjaxController {
 
         //HashSet에 uncheck된 itemId 담기
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
-        Set<Long> updatedSet = cartAjaxService.addExcludedItemId(excludedItemId, excludedSet);
+        excludedSet = cartService.checkValid(excludedSet);
+        excludedSet.add(excludedItemId);
         //세션에 업데이트된 HashSet 저장
-        session.setAttribute("excludedSet", updatedSet);
+        session.setAttribute("excludedSet", excludedSet);
 
         return "redirect:/sm/c/api/get";
     }

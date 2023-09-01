@@ -14,12 +14,5 @@ import java.util.Set;
 @Service
 public class CartAjaxService {
     private final Logger cart_log = LoggerFactory.getLogger(CartAjaxService.class);
-    public Set<Long> addExcludedItemId(Long excludedItemId, Set<Long> excludedSet) {
-        if(excludedSet == null) {
-            excludedSet = new HashSet<>();
-        }
-        Set<Long> hs = new HashSet<>(excludedSet);
-        hs.add(excludedItemId);
-        return hs;
-    }
+
 }

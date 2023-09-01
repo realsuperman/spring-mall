@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shopping.dao.cart.CartDao">
+    <select id = "selectByConsumerId" parameterType="Long" resultType="CartItem">
+        SELECT *
+        FROM cart_item
+        WHERE consumer_id = #{_parameter}
+    </select>
+    <update id="updateItemQuantityByCartId" parameterType="CartUpdateDto">
+        UPDATE cart_item
+        SET item_quantity=#{itemQuantity}
+        WHERE cart_id=#{cartId}
+    </update>
+</mapper>

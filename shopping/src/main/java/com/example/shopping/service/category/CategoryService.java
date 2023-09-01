@@ -1,11 +1,8 @@
 package com.example.shopping.service.category;
 
-import com.example.shopping.dao.CategoryDao;
+import com.example.shopping.dao.category.CategoryDao;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
 import com.example.shopping.domain.category.Category;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

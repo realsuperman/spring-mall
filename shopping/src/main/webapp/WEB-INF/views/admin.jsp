@@ -223,12 +223,10 @@
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="../static/js/scripts.js"></script>
+<script src="../../static/js/scripts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-<script src="../static/assets/demo/chart-area-demo.js"></script>
-<script src="../static/assets/demo/chart-bar-demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-<script src="../static/js/datatables-simple-demo.js"></script>
+<script src="../../static/js/datatables-simple-demo.js"></script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -277,7 +275,7 @@
     </style>
 </head>
 <body class="sb-nav-fixed">
-<%@include file="./common/header.jsp" %>
+<%@include file="common/header.jsp"%>
 <div id="layoutSidenav">
     <%@include file="common/adminNav.html" %>
     <div id="layoutSidenav_content">

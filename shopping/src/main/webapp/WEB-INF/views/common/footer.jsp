@@ -14,15 +14,15 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../../static/main-page/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/style.css" type="text/css">
-    <link rel="stylesheet" href="../../static/main-page/css/main-custom-style.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../static/main-page/css/main-custom-style.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -99,16 +99,6 @@
     </div>
     <!-- Search End -->
 
-<%--    <script src="../../static/main-page/js/jquery-3.3.1.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/bootstrap.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/jquery.nice-select.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/jquery.nicescroll.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/jquery.magnific-popup.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/jquery.countdown.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/jquery.slicknav.js"></script>--%>
-<%--    <script src="../../static/main-page/js/mixitup.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/owl.carousel.min.js"></script>--%>
-<%--    <script src="../../static/main-page/js/main.js"></script>--%>
     <script src="../../../static/js/jquery-3.3.1.min.js"></script>
 
 </body>

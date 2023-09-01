@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.shopping.dao.user.ConsumerDao">
+    <select id="selectOne" parameterType="String" resultType="Consumer">
+        SELECT *
+        FROM consumer
+        WHERE user_email = #{obj}
+    </select>
+    <insert id="insert" parameterType="Consumer">
+        INSERT INTO consumer(user_email, password, phone_number, address, user_name, is_admin)
+        VALUES (#{userEmail}, #{password}, #{phoneNumber}, #{address}, #{userName}, #{isAdmin})
+    </insert>
+    <update id="updatePassword">
+        UPDATE consumer
+        SET password=#{password}
+        WHERE user_email = #{userEmail}
+    </update>
+    <update id="updateUserInfo">
+        UPDATE consumer
+        <set>
+            <if test="address != null">
+                address=#{address},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number=#{phoneNumber},
+            </if>
+        </set>
+        WHERE user_email=#{userEmail}
+    </update>
+</mapper>

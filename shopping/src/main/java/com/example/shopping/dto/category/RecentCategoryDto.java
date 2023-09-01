@@ -1,4 +1,4 @@
-package com.example.shopping.dto.Category;
+package com.example.shopping.dto.category;
 
 import lombok.Builder;
 import lombok.Getter;

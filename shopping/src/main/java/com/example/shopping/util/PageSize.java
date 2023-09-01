@@ -1,4 +1,4 @@
-package com.example.shopping.global;
+package com.example.shopping.util;
 
 public enum PageSize {
     SIZE(16L);

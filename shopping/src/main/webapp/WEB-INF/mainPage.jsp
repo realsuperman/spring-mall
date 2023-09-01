@@ -112,7 +112,6 @@
 
     <%-- best script   --%>
     <script src="../../static/js/best-seller-script.js"></script>
-
     <script src="../../static/main-page/js/jquery-3.3.1.min.js"></script>
     <script src="../../static/main-page/js/bootstrap.min.js"></script>
     <script src="../../static/main-page/js/jquery.nice-select.min.js"></script>

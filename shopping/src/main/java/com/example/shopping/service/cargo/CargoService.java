@@ -5,7 +5,7 @@ import com.example.shopping.dto.cargo.CargoDto;
 import com.example.shopping.dto.cargo.StockDto;
 import com.example.shopping.dto.cargo.StockSearchDto;
 import com.example.shopping.dto.cargo.StockStatDto;
-import com.example.shopping.global.PageSize;
+import com.example.shopping.util.PageSize;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +23,10 @@ public class CargoService {
 
     public int getCountStock(String itemName) {
         return cargoDao.getCountStock(setStockSearchDto(null,itemName));
+    }
+
+    public int getCargoCnt(long itemId){
+        return cargoDao.cargoCnt(itemId);
     }
 
     public List<CargoDto> selectStockStat(Long page, String itemName) {

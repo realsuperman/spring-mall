@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -18,24 +20,32 @@ public class CartService {
         return cartDao.selectByConsumerId(sessionConsumerId);
     }
 
-    public List<CartItemDto> mapToDto(List<CartItem> cartItems) {
-        List<CartItemDto> cartItemDtos = new ArrayList<>();
-        for (CartItem cartItem : cartItems) {
-            //Item foundItem = itemService.selectItemById(cartItem.getItemId());
+    private Set<Long> checkValid(Set<Long> set) {
+        return set == null ? new HashSet<Long>() : set;
+    }
+
+    public List<CartItemDto> mapToDto(List<CartItem> cartItems, Set<Long> excludedSet) {
+        excludedSet = checkValid(excludedSet);
+        List<CartItemDto> dtos = new ArrayList<>();
+        for(CartItem cartItem : cartItems) {
+            long itemId = cartItem.getItemId();
             //hard coding start.
             Long subTotalPricePerItem = 1_000_000 * cartItem.getItemQuantity();
+            boolean isExcluded = excludedSet.contains(itemId);
             CartItemDto cartItemDto = CartItemDto.builder()
-                    .itemId(cartItem.getItemId())
+                    .itemId(itemId)
                     .itemName("갤럭시노트 20")
                     .itemPrice(1_000_000L)
+                    .itemQuantity(cartItem.getItemQuantity())
                     .itemImgPaths("https://picsum.photos/90")
                     .subTotalPrice(subTotalPricePerItem)
-                    .itemQuantity(cartItem.getItemQuantity())
                     .cartId(cartItem.getCartId())
+                    .isExcluded(isExcluded)
                     .build();
             //hard coding end.
-            cartItemDtos.add(cartItemDto);
+            dtos.add(cartItemDto);
         }
-        return cartItemDtos;
+        return dtos;
     }
+
 }

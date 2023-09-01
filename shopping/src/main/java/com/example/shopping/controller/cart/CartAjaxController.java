@@ -31,10 +31,10 @@ public class CartAjaxController {
     public String showComponent(Model model, HttpSession session) {
         cart_log.info("Cart Component here");
         Long sessionConsumerId = 2L;//hard coding.
-        Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
-
         List<CartItem> foundedCartItem = cartService.showByConsumerId(sessionConsumerId);
-        List<CartItemDto> foundItemDtos = cartAjaxService.mapToDto(foundedCartItem, excludedSet);
+        Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
+        
+        List<CartItemDto> foundItemDtos = cartService.mapToDto(foundedCartItem, excludedSet);
         model.addAttribute("foundItemDtos", foundItemDtos);
         return "cart_component";
     }

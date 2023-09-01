@@ -14,4 +14,8 @@ public class CartItemDto {
     private Long subTotalPrice;
     private Long cartId;
     private Boolean isExcluded;
+
+//    public CartItemDto() {
+//        this.isExcluded = false;
+//    }
 }

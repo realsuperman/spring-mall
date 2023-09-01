@@ -51,9 +51,18 @@
                             <!-- cart item list start. -->
                             <c:forEach items="${foundItemDtos}" var="cartItem">
                                 <tr>
-                                    <td>
-                                        <input type="checkbox" class="check-box check-box-${cartItem.itemId} mx-3" data-id="${cartItem.itemId}" checked/>
-                                    </td>
+                                    <c:choose>
+                                        <c:when test="${cartItem.isExcluded == true}">
+                                            <td>
+                                                <input type="checkbox" class="check-box check-box-${cartItem.itemId} mx-3" data-id="${cartItem.itemId}" />
+                                            </td>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>
+                                                <input type="checkbox" class="check-box check-box-${cartItem.itemId} mx-3" data-id="${cartItem.itemId}" checked/>
+                                            </td>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
                                             <img src="${cartItem.itemImgPaths}" alt="">

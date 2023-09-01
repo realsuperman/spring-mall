@@ -25,7 +25,7 @@ public class CartService {
             //hard coding start.
             Long subTotalPricePerItem = 1_000_000 * cartItem.getItemQuantity();
             CartItemDto cartItemDto = CartItemDto.builder()
-                    .itemId(1L)
+                    .itemId(cartItem.getItemId())
                     .itemName("갤럭시노트 20")
                     .itemPrice(1_000_000L)
                     .itemImgPaths("https://picsum.photos/90")

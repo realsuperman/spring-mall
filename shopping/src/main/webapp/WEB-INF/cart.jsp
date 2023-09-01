@@ -24,11 +24,15 @@
     <link rel="stylesheet" href="/cart/css/custom.css" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
-    <!-- 폰트어썸 cdn -->
+    <!-- cdn -->
+    <!-- 폰트어썸 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
                           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
                           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
+<body>
 <section class="shopping-cart spad">
     <div class="container">
         <div class="row">
@@ -43,12 +47,12 @@
                                 <th>Total</th>
                             </tr>
                         </thead>
-                        <tbody class="std-parents">
+                        <tbody id="std-parents">
                             <!-- cart item list start. -->
                             <c:forEach items="${foundItemDtos}" var="cartItem">
                                 <tr>
                                     <td>
-                                        <input type="checkbox" class="mx-3" />
+                                        <input type="checkbox" class="check-box check-box-${cartItem.itemId} mx-3" data-id="${cartItem.itemId}" checked/>
                                     </td>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
@@ -116,3 +120,5 @@
         </div>
     </div>
 </section>
+<script src="/cart/js/script.js"></script>
+</body>

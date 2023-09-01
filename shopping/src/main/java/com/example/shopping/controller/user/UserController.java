@@ -56,7 +56,7 @@ public class UserController extends HttpServlet {
     }
 
     @PostMapping("/login")
-    private String login(HttpSession httpSession, @Valid LoginRequest loginRequest, Model model) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    private String login(HttpSession httpSession, LoginRequest loginRequest, Model model) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         try {
             LoginResponse loginResponse = userService.login(loginRequest);
             httpSession.setAttribute("login_user", loginResponse.getLoginUser());

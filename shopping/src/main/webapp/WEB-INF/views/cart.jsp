@@ -20,8 +20,8 @@
         rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="/cart/css/style.css" type="text/css">
-    <link rel="stylesheet" href="/cart/css/custom.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/custom.css" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <!-- cdn -->
@@ -33,6 +33,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
+
+<!-- Header Section -->
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/titleHeader.jsp"></jsp:include>
 <section class="shopping-cart spad">
     <div class="container">
         <div class="row" id="std-parents">
@@ -140,5 +145,6 @@
         </div>
     </div>
 </section>
-<script src="/cart/js/script.js"></script>
+</div>
+<script src="../../static/js/script.js"></script>
 </body>

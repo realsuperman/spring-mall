@@ -1,16 +1,19 @@
 package com.example.shopping.dao.cart;
 
 import com.example.shopping.domain.cart.CartItem;
-import com.example.shopping.dto.cart.CartUpdateDto;
+import com.example.shopping.domain.cart.CartSelectVo;
+import com.example.shopping.domain.cart.CartUpdateVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface CartDao {
-    List<CartItem> selectByConsumerId(Long consumerId);
+//    List<CartItem> selectByConsumerId(CartSelectVo vo);
+    Object selectByVo(CartSelectVo vo);
 
-    void updateItemQuantityByCartId(CartUpdateDto dto);
+    void updateItemQuantityByCartId(CartUpdateVo vo);
 
-    CartItem selectByCartId(long cartId);
+
+
 }

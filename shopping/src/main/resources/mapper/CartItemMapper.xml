@@ -4,12 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.shopping.dao.cart.CartDao">
-    <select id = "selectByConsumerId" parameterType="Long" resultType="CartItem">
+    <select id = "selectByVo" parameterType="CartSelectVo" resultType="CartItem">
         SELECT *
         FROM cart_item
-        WHERE consumer_id = #{_parameter}
+        <if test="consumerId != null">
+            WHERE consumer_id = #{consumerId}
+        </if>
+        <if test="cartId != null">
+            WHERE cart_id = #{cartId}
+        </if>
     </select>
-    <update id="updateItemQuantityByCartId" parameterType="CartUpdateDto">
+    <update id="updateItemQuantityByCartId" parameterType="CartUpdateVo">
         UPDATE cart_item
         SET item_quantity=#{itemQuantity}
         WHERE cart_id=#{cartId}

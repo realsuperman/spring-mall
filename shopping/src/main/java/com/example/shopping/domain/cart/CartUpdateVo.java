@@ -1,6 +1,5 @@
-package com.example.shopping.dto.cart;
+package com.example.shopping.domain.cart;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class CartUpdateDto {
+public class CartUpdateVo {
     private Long cartId;
     private Long itemQuantity;
 }

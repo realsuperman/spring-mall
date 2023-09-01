@@ -1,53 +1,41 @@
 package com.example.shopping.controller.item;
 
-import com.example.shopping.domain.category.Category;
-import com.example.shopping.service.category.CategoryService;
+import com.example.shopping.domain.item.Item;
+import com.example.shopping.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.RequestDispatcher;
-import java.util.Collections;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/item")
 @RequiredArgsConstructor
+@Slf4j
 public class ItemController {
+    private final ItemService itemService;
 
-    private final CategoryService categoryService;
+    @PostMapping
+    public String insertItem(@Valid @ModelAttribute Item item, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+            List<String> errorMessages = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
 
-//    @GetMapping
-//    public String func(@RequestParam Long categoryId, @RequestParam Long page){
-//        Category category = categoryService.findCategoryById(categoryId);
-//
-//        List<Category> parentsById = categoryService.findParentsById(categoryId);
-//        List<String> upperCategoryNames = parentsById.stream()
-//                .map(Category::getCategoryName)
-//                .collect(Collectors.toList());
-//        Collections.reverse(upperCategoryNames);
-//
-//        request.setAttribute("items", itemService.selectCategoryRecent(page, categoryId));
-//        request.setAttribute("categoryId", categoryId);
-//        request.setAttribute("totalPage", itemService.itemCount(categoryId));
-//        request.setAttribute("categoryName", category.getCategoryName());
-//        request.setAttribute("upperCategoryNames", upperCategoryNames);
-//        RequestDispatcher rd = request.getRequestDispatcher(LabelFormat.PREFIX.label() + fileName + LabelFormat.SUFFIX.label());
-//        rd.forward(request, response);
-//    }
+            model.addAttribute("errorMessages", errorMessages);
+            return "/admin";
+        }
 
-
-    @GetMapping("/test")
-    public String func(Model model){
-        List<Category> categories = categoryService.selectAll();
-        model.addAttribute("data",categories);
-        return "test";
+        item.setItemImagePath(item.getImage1Name()+";"+item.getImage2Name()+";"+item.getImage3Name()+";" +item.getImage4Name()+";"+item.getImage5Name()+";"+item.getImage6Name());
+        itemService.insertItem(item, item.getItemQuantity());
+        return "redirect:/admin";
     }
-    // adapter는 String을 받으면 무조건 viewResolver를 타도록 설정되어 있다.
-    // adapter가 responseEntity를 받으면 viewResolver를 타지 않도록 설정되어 있다.
-    // adapter가 modelAndView로 결과를 DispatcherServlet에게 전달한다
-    // DispatcherServlet은 adapter가 알려준 결과를 보고 viewResolver를 태울지말지 결정한다.
 }

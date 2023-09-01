@@ -6,10 +6,12 @@ import com.example.shopping.dto.category.CategoryBestResponse;
 import com.example.shopping.dto.category.CategoryRecentRequest;
 import com.example.shopping.dto.category.CategoryRecentResponse;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 public interface ItemDao {
     int insertItem(Item item);
     Item selectByKey(long itemId);

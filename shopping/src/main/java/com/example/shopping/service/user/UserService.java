@@ -8,7 +8,6 @@ import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.domain.user.Membership;
 import com.example.shopping.dto.user.*;
 import com.example.shopping.exception.MessageException;
-import com.example.shopping.validation.Validation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +36,6 @@ public class UserService {
     private final String alg = rb.getString("encrypt.alg");
     private final String key = rb.getString("encrypt.key");
     private final String iv = key.substring(0, 16);
-
-    Validation validation = new Validation();
 
     public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao) {
         this.consumerDao = consumerDao;

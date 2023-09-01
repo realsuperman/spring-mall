@@ -29,17 +29,6 @@ public class UserController extends HttpServlet {
 
     private final UserService userService;
 
-
-    /**
-     * 로그인 post
-     * 회원가입 post
-     * 로그인 페이지 get "userLoginRegister"
-     * 로그아웃 get
-     * 회원정보 비밀번호 수정 fetch
-     * 회원정보 주소, 폰번호 수정 fetch
-     * validation post
-     */
-
     @GetMapping("/sign-page")
     private String getSignPage() {
         return "userLoginRegister";

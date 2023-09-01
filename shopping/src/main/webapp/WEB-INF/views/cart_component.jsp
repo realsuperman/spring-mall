@@ -102,4 +102,4 @@
         </form>
     </div>
 </div>
-<script src="/cart/js/script.js"></script>
+<script src="../../static/js/script.js"></script>

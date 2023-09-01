@@ -93,11 +93,4 @@ $(document).ready(function () {
         }
     });
 
-<<<<<<< HEAD
-    // Reload page
-    // $('a.profile').on('click', function () {
-    //     location.reload(true);
-    // });
-=======
->>>>>>> 0086311c938287540ea5b6f65019ccebdb9fe680
 });

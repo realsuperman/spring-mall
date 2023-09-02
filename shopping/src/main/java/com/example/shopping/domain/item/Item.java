@@ -32,25 +32,25 @@ public class Item {
     /**
      * 아래 항목들은 검증을 위한 항목들임
      */
-//    @NotBlank(message = "섬네일은 비어 있을 수 없습니다")
-//    @Size(max=170, message = "섬네일이 이상합니다")
-//    private String image1Name;
-//    @NotBlank(message = "이미지1은 비어 있을 수 없습니다")
-//    @Size(max=170, message = "이미지2가 이상합니다")
-//    private String image2Name;
-//    @NotBlank(message = "이미지2는 비어 있을 수 없습니다")
-//    @Size(max=170, message = "이미지2가 이상합니다")
-//    private String image3Name;
-//    @NotBlank(message = "이미지3은 비어 있을 수 없습니다")
-//    @Size(max=170, message = "이미지3이 이상합니다")
-//    private String image4Name;
-//    @NotBlank(message = "이미지4는 비어 있을 수 없습니다")
-//    @Size(max=170, message = "이미지4가 이상합니다")
-//    private String image5Name;
-//    @NotBlank(message = "이미지5는 비어 있을 수 없습니다")
-//    @Size(max=170, message = "이미지5가 이상합니다")
-//    private String image6Name;
-//    @Min(value=1, message = "수량의 최소 값은 1 이상입니다")
-//    @Max(value=100, message = "수량의 최대 값은 100입니다")
-//    private Integer itemQuantity;
+    @NotBlank(message = "섬네일은 비어 있을 수 없습니다")
+    @Size(max=170, message = "섬네일이 이상합니다")
+    private String image1Name;
+    @NotBlank(message = "이미지1은 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지2가 이상합니다")
+    private String image2Name;
+    @NotBlank(message = "이미지2는 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지2가 이상합니다")
+    private String image3Name;
+    @NotBlank(message = "이미지3은 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지3이 이상합니다")
+    private String image4Name;
+    @NotBlank(message = "이미지4는 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지4가 이상합니다")
+    private String image5Name;
+    @NotBlank(message = "이미지5는 비어 있을 수 없습니다")
+    @Size(max=170, message = "이미지5가 이상합니다")
+    private String image6Name;
+    @Min(value=1, message = "수량의 최소 값은 1 이상입니다")
+    @Max(value=100, message = "수량의 최대 값은 100입니다")
+    private Integer itemQuantity;
 }

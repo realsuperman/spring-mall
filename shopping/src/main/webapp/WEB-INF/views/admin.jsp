@@ -17,7 +17,9 @@
 
         for (let i = 0; i < spans.length; i++) {
             let errorMessage = spans[i].textContent.trim();
-            alert(errorMessage);
+            if(errorMessage !== '') {
+                alert(errorMessage);
+            }
         }
 
         $('#add').html("상품 추가");
@@ -77,9 +79,9 @@
         });
 
         $("#itemForm").submit(function(event) {
-            if(!checkForm()){ // 프론트 체크
+            /*if(!checkForm()){ // 프론트 체크
                 event.preventDefault();
-            }
+            }*/
         })
 
         window.onpageshow = function(event) { // 뒤로가기 누르면 모든 item 제거
@@ -354,11 +356,11 @@
 
 <c:set var="errorMessages" value="${errorMessages}" />
 
-<div style="display: none" id="alertDiv">
+<div id="alertDiv">
     <c:forEach items="${errorMessages}" var="errorMessage">
         <span>${errorMessage}</span><br>
     </c:forEach>
+    <span>${dbError}</span>
 </div>
-
 </body>
 </html>

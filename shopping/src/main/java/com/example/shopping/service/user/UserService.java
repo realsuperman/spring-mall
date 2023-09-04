@@ -8,6 +8,7 @@ import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.domain.user.Membership;
 import com.example.shopping.dto.user.*;
 import com.example.shopping.exception.MessageException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final ConsumerDao consumerDao;
@@ -37,11 +39,7 @@ public class UserService {
     private final String key = rb.getString("encrypt.key");
     private final String iv = key.substring(0, 16);
 
-    public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao) {
-        this.consumerDao = consumerDao;
-        this.orderDetailDao = orderDetailDao;
-        this.membershipDao = membershipDao;
-    }
+
 
     public Consumer readUserOne(String userEamil) {
         return consumerDao.selectOne(userEamil);

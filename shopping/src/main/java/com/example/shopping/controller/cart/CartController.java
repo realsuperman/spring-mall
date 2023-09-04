@@ -7,12 +7,15 @@ package com.example.shopping.controller.cart;
 import com.example.shopping.domain.cart.CartItem;
 import com.example.shopping.domain.cart.CartPageVo;
 import com.example.shopping.domain.cart.CartPager;
+import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.dto.cart.CartItemDto;
 import com.example.shopping.dto.cart.PutInCartDto;
 import com.example.shopping.service.cart.CartService;
+import com.example.shopping.util.Util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,18 +33,20 @@ import java.util.Set;
 @Controller
 @RequestMapping("/cart")
 @RequiredArgsConstructor
+@Slf4j
 public class CartController {
-    private final Logger cart_log = LoggerFactory.getLogger(CartController.class);
+//    private final Logger cart_log = LoggerFactory.getLogger(CartController.class);
     private final CartService cartService;
     private CartPageVo pageVo;
 
     @GetMapping
     public String show(HttpSession session, Model model) {
-        long sessionConsumerId = 2L;//hard coding.
+        Consumer consumer = Util.Session.getUser(session);
+        long sessionConsumerId = consumer.getConsumerId();
 
         List<CartItem> foundCartItemAll = cartService.showByConsumerId(sessionConsumerId);
         if(foundCartItemAll.isEmpty()) {
-            cart_log.info("foundCartItemAll is null");
+            log.info("foundCartItemAll is null");
             model.addAttribute("errMsg", "장바구니에 담긴 상품이 없습니다.");
         }
 
@@ -62,18 +67,21 @@ public class CartController {
     }
 
     @PostMapping("/insert")
-    public String registerItem(@RequestParam String jsonString) {
-        long sessionConsumerId = 2L;//hard coding.
+    public String registerItem(@RequestParam(value = "putInCartDto") String jsonString, HttpSession session) {
+        System.out.println("jsonString = " + jsonString);
+        Consumer consumer = Util.Session.getUser(session);
+        long sessionConsumerId = consumer.getConsumerId();
+        PutInCartDto putInCartDto = null;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             //JSON 문자열을 Java 객체로 변환
-            PutInCartDto putInCartDto = objectMapper.readValue(jsonString, PutInCartDto.class);
+            putInCartDto = objectMapper.readValue(jsonString, PutInCartDto.class);
             //insert logic.
             cartService.register(putInCartDto, sessionConsumerId);
-            pageVo = new CartPageVo(1, sessionConsumerId);
+
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return "redirect:/sm/c/api/get";
+        return "redirect:/itemDetail?itemId=" + putInCartDto.getItemId() + "&success=true";
     }
 }

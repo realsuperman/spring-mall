@@ -1,10 +1,14 @@
 package com.example.shopping.dto.cart;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter
 public class PutInCartDto {
     private Long itemId;
     private Long itemQuantity;

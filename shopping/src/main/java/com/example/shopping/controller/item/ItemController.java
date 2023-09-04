@@ -46,7 +46,10 @@ public class ItemController {
     }
 
     @GetMapping("/itemDetail")
-    public String itemDetail(@RequestParam Long itemId, Model model){
+    public String itemDetail(@RequestParam Long itemId, @RequestParam(defaultValue = "false") String success, Model model){
+        if(success.equals("true")) {
+            model.addAttribute("sucMsg", "장바구니에 해당 상품이 담겼습니다.");
+        }
         Map<String,Object> responseData = itemService.getItemDetailPageData(itemId);
         model.addAllAttributes(responseData);
 

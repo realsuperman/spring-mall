@@ -120,6 +120,9 @@
             data : formData,
             success: function(result) {
                 data = parsingJson(result);
+            },
+            error: function(error) {
+                alert(error.responseText);
             }
         });
 

@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -46,7 +46,7 @@ public class SecurityConfig {
 
     @Bean
     public SessionRegistry sessionRegistry() {
-        return  new SessionRegistryImpl();
+        return new SessionRegistryImpl();
     }
 
     @Bean
@@ -54,12 +54,15 @@ public class SecurityConfig {
 
         http.cors().and().csrf().disable().exceptionHandling().accessDeniedHandler(customAccessDeniedHandler).authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .maximumSessions(1)
-                .expiredUrl("/") // 세션이 만료되었을 때 이동할 페이지 설정
+                .expiredUrl("/")
                 .sessionRegistry(sessionRegistry());
 
-        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/", "/status", "/static/**", "/categories", "/item", "/itemDetail", "/itemJson", "/user/sign-page", "/user/sign-up", "/user/login").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/item").hasRole("ADMIN")
+                .antMatchers("/", "/status", "/static/**", "/categories", "/itemDetail", "/itemJson", "/user/sign-page", "/user/sign-up", "/user/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/item").permitAll()
+                .anyRequest().authenticated();
 
         http.formLogin().loginPage("/user/sign-page").permitAll()
                 .and()

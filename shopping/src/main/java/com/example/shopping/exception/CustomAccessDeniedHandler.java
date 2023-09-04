@@ -19,12 +19,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-
         response.setStatus(HttpStatus.FORBIDDEN.value());
-//        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        // 예외 응답 하기
-        response.getWriter().print("접근 제한");
+        response.sendRedirect("/error/denied");
     }
 }

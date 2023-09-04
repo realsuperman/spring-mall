@@ -8,6 +8,7 @@ import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.domain.user.Membership;
 import com.example.shopping.dto.user.*;
 import com.example.shopping.exception.MessageException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final ConsumerDao consumerDao;
@@ -35,18 +37,6 @@ public class UserService {
     private final MembershipDao membershipDao;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
-    private final ResourceBundle rb = ResourceBundle.getBundle("application", Locale.KOREA);
-    private final String alg = rb.getString("encrypt.alg");
-    private final String key = rb.getString("encrypt.key");
-    private final String iv = key.substring(0, 16);
-
-    public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
-        this.consumerDao = consumerDao;
-        this.orderDetailDao = orderDetailDao;
-        this.membershipDao = membershipDao;
-        this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     public Consumer readUserOne(String userEamil) {
         return consumerDao.selectOne(userEamil);
@@ -88,9 +78,6 @@ public class UserService {
 
         Consumer consumer = ((AccountDetails) authentication.getPrincipal()).getConsumer();
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // exception 처리 추가하기
-        //  email, pass 틀릴 시, authentication.BadCredentialsException 를 발생
 
         if (consumer.getIsAdmin() == 1) {
             return new LoginResponse(consumer);

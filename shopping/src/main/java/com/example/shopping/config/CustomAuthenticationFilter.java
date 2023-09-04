@@ -25,7 +25,6 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // 유저 정보
         Consumer consumer = getConsumer(request);
 
         if (consumer != null) {

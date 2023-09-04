@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         WHERE category_id = #{categoryId}
     </select>
 
-    <select id="selectCategoryBest" resultType="categoryBestResponse">
+    <select id="selectBestsellersMatchingMasterCategoryId" resultType="categoryBestResponse">
         WITH RECURSIVE temp_table AS(
             SELECT category_id FROM category WHERE master_category_id = #{masterCategoryId}
             UNION ALL
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
         LIMIT #{limit};
     </select>
 
-    <select id="selectCategoryRecent" resultType="categoryRecentResponse" parameterType="CategoryRecentRequest">
+    <select id="selectRecentsMatchingCategoryId" resultType="categoryRecentResponse" parameterType="CategoryRecentRequest">
         SELECT item_id, item_price, item_name, item_image_path
         FROM item
         WHERE category_id = #{categoryId}

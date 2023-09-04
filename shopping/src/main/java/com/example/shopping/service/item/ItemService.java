@@ -37,8 +37,8 @@ public class ItemService {
         cargoDao.insertCargo(cargoList);
     }
 
-    public Map<String,Object> getHomeData(Long limit, Long page, Integer EXPOSE_CATEGORY_CNT){
-        List<Category> leafCategories = selectLeafCategories();
+    public Map<String,Object> getHomePageData(Long limit, Long page, Integer EXPOSE_CATEGORY_CNT){
+        List<Category> leafCategories = getLeafCategories();
         Collections.shuffle(leafCategories);
 
         List<List<CategoryRecentResponse>> items = new ArrayList<>();
@@ -47,9 +47,9 @@ public class ItemService {
 
         for (int i = 0; i < leafCategories.size(); i++){
             long categoryId = leafCategories.get(i).getCategoryId();
-            List<CategoryRecentResponse> categoryRecentResponse = selectCategoryRecent(limit, page, categoryId);
-            if(categoryRecentResponse.size() >= MIN_COUNT_FOR_PREVIEW_RECENT_ITEM){
-                items.add(categoryRecentResponse);
+            List<CategoryRecentResponse> recentItems = getRecentItemsMatchingCategoryId(limit, page, categoryId);
+            if(recentItems.size() >= MIN_COUNT_FOR_PREVIEW_RECENT_ITEM){
+                items.add(recentItems);
                 categoryIds.add(categoryId);
                 categoryNames.add(leafCategories.get(i).getCategoryName());
                 if(items.size() >= EXPOSE_CATEGORY_CNT) break;
@@ -73,17 +73,16 @@ public class ItemService {
         Collections.reverse(upperCategoryNames);
 
         Map<String,Object> responseData = new HashMap<>();
-        responseData.put("items",selectCategoryRecent(PageSize.SIZE.size(),page,categoryId));
+        responseData.put("items", getRecentItemsMatchingCategoryId(PageSize.SIZE.size(),page,categoryId));
         responseData.put("categoryId",categoryId);
-        responseData.put("totalPage",itemCount(categoryId));
+        responseData.put("totalPage", getItemCount(categoryId));
         responseData.put("categoryName",category.getCategoryName());
         responseData.put("upperCategoryNames",upperCategoryNames);
         return responseData;
     }
 
-    public Map<String,Object> getItemDetailData(Long itemId){
-        // TODO: JOIN해서 한번에 가져올 수 있는가?
-        Item item = selectItemById(itemId);
+    public Map<String,Object> getItemDetailPageData(Long itemId){
+        Item item = getItemById(itemId);
         long categoryId = item.getCategoryId();
         List<String> upperCategoryNames = categoryDao.findParentsById(categoryId)
                 .stream()
@@ -98,28 +97,28 @@ public class ItemService {
         return responseData;
     }
 
-    public List<CategoryBestResponse> selectCategoryBest(long masterCategoryId, long limit) {
-        return itemDao.selectCategoryBest(masterCategoryId, limit);
+    public List<CategoryBestResponse> getBestsellerItemsMatchingMasterCategoryId(long masterCategoryId, long limit) {
+        return itemDao.selectBestsellersMatchingMasterCategoryId(masterCategoryId, limit);
     }
 
-    private List<CategoryRecentResponse> selectCategoryRecent(Long limit, Long page, Long categoryId) {
+    private List<CategoryRecentResponse> getRecentItemsMatchingCategoryId(Long limit, Long page, Long categoryId) {
         CategoryRecentRequest categoryRecentRequest = CategoryRecentRequest.builder()
                 .limit(limit)
                 .categoryId(categoryId)
                 .offset((page - 1) * PageSize.SIZE.size())
                 .build();
-        return itemDao.selectCategoryRecent(categoryRecentRequest);
+        return itemDao.selectRecentsMatchingCategoryId(categoryRecentRequest);
     }
 
-    private List<Category> selectLeafCategories(){
+    private List<Category> getLeafCategories(){
         return itemDao.selectLeafCategories();
     }
 
-    private int itemCount(Long categoryId) {
+    private int getItemCount(Long categoryId) {
         return itemDao.getItemCount(categoryId);
     }
 
-    private Item selectItemById(long itemId) {
+    private Item getItemById(long itemId) {
         return itemDao.selectItemById(itemId);
     }
 

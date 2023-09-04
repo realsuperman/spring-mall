@@ -8,23 +8,24 @@ import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.domain.user.Membership;
 import com.example.shopping.dto.user.*;
 import com.example.shopping.exception.MessageException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -32,15 +33,19 @@ public class UserService {
     private final ConsumerDao consumerDao;
     private final OrderDetailDao orderDetailDao;
     private final MembershipDao membershipDao;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     private final ResourceBundle rb = ResourceBundle.getBundle("application", Locale.KOREA);
     private final String alg = rb.getString("encrypt.alg");
     private final String key = rb.getString("encrypt.key");
     private final String iv = key.substring(0, 16);
 
-    public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao) {
+    public UserService(ConsumerDao consumerDao, OrderDetailDao orderDetailDao, MembershipDao membershipDao, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.consumerDao = consumerDao;
         this.orderDetailDao = orderDetailDao;
         this.membershipDao = membershipDao;
+        this.authenticationManager = authenticationManager;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Consumer readUserOne(String userEamil) {
@@ -58,7 +63,7 @@ public class UserService {
 
         isExistEmail(signUpDto.getUserEmail());
 
-        signUpDto.setPassword(encrypt(signUpDto.getPassword()));
+        signUpDto.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         Consumer consumer = Consumer.signUpDtoToConsumer(signUpDto);
         consumerDao.insert(consumer);
 
@@ -70,24 +75,6 @@ public class UserService {
         }
     }
 
-    // 비밀번호 암호화
-    private String encrypt(String originalPassword) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
-        Cipher cipher = Cipher.getInstance(alg);
-        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key.getBytes(), "AES"), new IvParameterSpec(iv.getBytes()));
-        byte[] encrypted = cipher.doFinal(originalPassword.getBytes(StandardCharsets.UTF_8));
-
-        return Base64.getEncoder().encodeToString(encrypted);
-    }
-
-    // 비밀번호 복호화
-    private String decrypt(String cipherPassword) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        Cipher cipher = Cipher.getInstance(alg);
-        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes(), "AES"), new IvParameterSpec(iv.getBytes()));
-        byte[] decodedBytes = Base64.getDecoder().decode(cipherPassword);
-
-        return new String(cipher.doFinal(decodedBytes), StandardCharsets.UTF_8);
-    }
-
     /**
      * 로그인
      *
@@ -96,15 +83,14 @@ public class UserService {
      */
     public LoginResponse login(LoginRequest loginRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
-        Consumer consumer = consumerDao.selectOne(loginRequest.getUserEmail());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserEmail(), loginRequest.getPassword());
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        if (consumer == null) {
-            throw new MessageException("존재하지 않는 이메일입니다.");
-        }
+        Consumer consumer = ((AccountDetails) authentication.getPrincipal()).getConsumer();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        if (!loginRequest.getPassword().equals(decrypt(consumer.getPassword()))) {
-            throw new MessageException("비밀번호가 일치하지 않습니다.");
-        }
+        // exception 처리 추가하기
+        //  email, pass 틀릴 시, authentication.BadCredentialsException 를 발생
 
         if (consumer.getIsAdmin() == 1) {
             return new LoginResponse(consumer);
@@ -149,10 +135,13 @@ public class UserService {
     @Transactional
     public void updatePassword(String email, UpdatePasswordRequest updatePasswordRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, UnsupportedEncodingException {
 
-        if (!updatePasswordRequest.getOriginalPassword().equals(decrypt(consumerDao.selectOne(email).getPassword()))) {
+
+        passwordEncoder.matches(updatePasswordRequest.getOriginalPassword(), consumerDao.selectOne(email).getPassword());
+
+        if (!passwordEncoder.matches(updatePasswordRequest.getOriginalPassword(), consumerDao.selectOne(email).getPassword())) {
             throw new MessageException("비밀번호가 일치하지 않습니다.");
         }
-        updatePasswordRequest.setUpdatePassword(encrypt(updatePasswordRequest.getUpdatePassword()));
+        updatePasswordRequest.setUpdatePassword(passwordEncoder.encode(updatePasswordRequest.getUpdatePassword()));
 
         consumerDao.updatePassword(Consumer.updateUserPassDtoToConsumer(email, updatePasswordRequest));
     }

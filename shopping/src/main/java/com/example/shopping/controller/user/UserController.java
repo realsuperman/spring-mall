@@ -3,9 +3,12 @@ package com.example.shopping.controller.user;
 import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.dto.user.*;
 import com.example.shopping.exception.MessageException;
+import com.example.shopping.service.user.AccountDetails;
 import com.example.shopping.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,9 +58,11 @@ public class UserController extends HttpServlet {
                 httpSession.setAttribute("discount_rate", loginResponse.getDiscountRate());
             }
             return "redirect:/";
-        } catch (MessageException e) {
+
+    } catch (MessageException e) {
+
             model.addAttribute("errorMsg", e.getMessage());
-            return "userLoginRegister";
+            return "redirect:/";
         }
     }
 
@@ -87,28 +92,31 @@ public class UserController extends HttpServlet {
     }
 
     @PatchMapping("/pass")
-    private ResponseEntity<String> updateUserPassword(HttpSession httpSession, @Valid @RequestBody UpdatePasswordRequest updatePasswordRequest, BindingResult bindingResult) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    private ResponseEntity<String> updateUserPassword(HttpSession httpSession, @Valid @RequestBody UpdatePasswordRequest updatePasswordRequest, BindingResult bindingResult, @AuthenticationPrincipal AccountDetails accountDetails) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getFieldErrors().get(0).getDefaultMessage());
         }
-        String email = ((Consumer) httpSession.getAttribute("login_user")).getUserEmail();
+
+        String email = accountDetails.getUsername();
         userService.updatePassword(email, updatePasswordRequest);
         Consumer updatedConsumer = userService.readUserOne(email);
+
+
         httpSession.setAttribute("login_user", updatedConsumer);
 
         return ResponseEntity.ok("업데이트 성공");
     }
 
     @PatchMapping("/info")
-    private ResponseEntity<String> updateUserInfo(HttpSession httpSession, @Valid @RequestBody UpdateUserRequest updateUserRequest, BindingResult bindingResult) {
+    private ResponseEntity<String> updateUserInfo(HttpSession httpSession, @Valid @RequestBody UpdateUserRequest updateUserRequest, BindingResult bindingResult, @AuthenticationPrincipal AccountDetails accountDetails) {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getFieldErrors().get(0).getDefaultMessage());
         }
 
-        Consumer sessionConsumer = (Consumer) httpSession.getAttribute("login_user");
-        String email = ((Consumer) httpSession.getAttribute("login_user")).getUserEmail();
+        Consumer sessionConsumer = accountDetails.getConsumer();
+        String email = accountDetails.getUsername();
 
         String updatePhoneNumber = updateUserRequest.getUpdatePhoneNumber();
         String updateAddress = updateUserRequest.getUpdateAddress() + " " + updateUserRequest.getUpdateAddressDetail();

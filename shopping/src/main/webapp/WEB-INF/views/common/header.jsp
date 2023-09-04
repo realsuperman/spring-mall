@@ -55,7 +55,7 @@
                         <p style="color: #FFFFFF">${login_user.userName}님, 어서오세요 <${grade}> &nbsp;&nbsp;&nbsp;&nbsp;
                       </c:otherwise>
                     </c:choose>
-                      <span><a href="/logout">LOGOUT</a></span>
+                      <span><a href="/user/logout">LOGOUT</a></span>
                       </p>
                   </c:otherwise>
                 </c:choose>

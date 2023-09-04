@@ -8,8 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ConsumerDao {
 
-    public Consumer selectOne(String consumerId);
-
+    public Consumer selectOne(String userEmail);
     public int insert(Consumer consumer);
 
     public int updatePassword(Consumer consumer);

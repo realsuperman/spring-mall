@@ -81,27 +81,23 @@ public class UserController extends HttpServlet {
     @GetMapping("/logout")
     private String logout(HttpSession httpSession, Model model) {
         if (httpSession != null) {
-            httpSession.invalidate(); // 세션 무효화
+            httpSession.invalidate();
         }
         return "redirect:/";
     }
 
     @PatchMapping("/pass")
     private ResponseEntity<String> updateUserPassword(HttpSession httpSession, @Valid @RequestBody UpdatePasswordRequest updatePasswordRequest, BindingResult bindingResult) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        try {
-            if (bindingResult.hasErrors()) {
-                return ResponseEntity.badRequest().body(bindingResult.getFieldErrors().get(0).getDefaultMessage());
-            }
 
-            String email = ((Consumer) httpSession.getAttribute("login_user")).getUserEmail();
-            userService.updatePassword(email, updatePasswordRequest);
-            Consumer updatedConsumer = userService.readUserOne(email);
-            httpSession.setAttribute("login_user", updatedConsumer);
-
-            return ResponseEntity.ok("업데이트 성공");
-        } catch (MessageException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getFieldErrors().get(0).getDefaultMessage());
         }
+        String email = ((Consumer) httpSession.getAttribute("login_user")).getUserEmail();
+        userService.updatePassword(email, updatePasswordRequest);
+        Consumer updatedConsumer = userService.readUserOne(email);
+        httpSession.setAttribute("login_user", updatedConsumer);
+
+        return ResponseEntity.ok("업데이트 성공");
     }
 
     @PatchMapping("/info")

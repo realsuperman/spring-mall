@@ -2,12 +2,15 @@ package com.example.shopping.dto.order;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
-public class OrderItemDto {
+public class OrderItemDto implements Serializable {
     private Long itemId;
     private Long cartId;
     private String itemName;

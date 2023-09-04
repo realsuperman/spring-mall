@@ -57,11 +57,11 @@
                 <c:choose>
                     <c:when test="${pathUri == 'myPage.jsp' || pathUri == 'myPageUpdate.jsp' }" >
                         <a href="/my-page" style="color: #0b0b0b ; font-size: 25px " >MY INFO</a> <br>
-                        <a href="/orderSetList" style="color: #6b6b6b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
+                        <a href="/user/my-page/order-set" style="color: #6b6b6b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
                     </c:when>
                     <c:when test="${pathUri == 'orderSetList.jsp' || pathUri == 'orderDetail.jsp' || pathUri == 'orderCancel.jsp'}" >
                         <a href="/my-page" style="color: #6b6b6b ; font-size: 25px " >MY INFO</a> <br>
-                        <a href="/orderSetList" style="color:  #0b0b0b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
+                        <a href="/user/my-page/order-set" style="color:  #0b0b0b ; font-size: 25px " ><span>MY ORDER</span></a> <br>
                     </c:when>
                 </c:choose>
 

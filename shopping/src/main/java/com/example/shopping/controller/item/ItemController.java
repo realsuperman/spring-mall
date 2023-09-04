@@ -1,7 +1,6 @@
 package com.example.shopping.controller.item;
 
 
-import com.example.shopping.domain.category.Category;
 import com.example.shopping.domain.item.Item;
 import com.example.shopping.dto.category.CategoryBestResponse;
 import com.example.shopping.service.category.CategoryService;
@@ -26,15 +25,13 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ItemController {
     private final ItemService itemService;
-    private final CategoryService categoryService;
-
     private static final Integer EXPOSE_CATEGORY_CNT = 3;
     private static final Long PREVIEW_ITEM_CNT = 4L;
     private static final Long NO_PAGINATION = 1L;
 
     @GetMapping("/")
     public String home(Model model){
-        Map<String,Object> responseData = itemService.getHomeData(PREVIEW_ITEM_CNT, NO_PAGINATION, EXPOSE_CATEGORY_CNT);
+        Map<String,Object> responseData = itemService.getHomePageData(PREVIEW_ITEM_CNT, NO_PAGINATION, EXPOSE_CATEGORY_CNT);
         model.addAllAttributes(responseData);
 
         return "mainPage";
@@ -50,7 +47,7 @@ public class ItemController {
 
     @GetMapping("/itemDetail")
     public String itemDetail(@RequestParam Long itemId, Model model){
-        Map<String,Object> responseData = itemService.getItemDetailData(itemId);
+        Map<String,Object> responseData = itemService.getItemDetailPageData(itemId);
         model.addAllAttributes(responseData);
 
         return "itemDetail";
@@ -59,16 +56,9 @@ public class ItemController {
     @ResponseBody
     @GetMapping("/itemJson")
     public List<CategoryBestResponse> itemDetail(@RequestParam Long categoryId){
-        return itemService.selectCategoryBest(categoryId,PREVIEW_ITEM_CNT);
+        return itemService.getBestsellerItemsMatchingMasterCategoryId(categoryId,PREVIEW_ITEM_CNT);
     }
 
-    @GetMapping("/test")
-    public String func(Model model){
-        List<Category> categories = categoryService.selectAll();
-        model.addAttribute("data",categories);
-
-        return "test";
-    }
 
     /**
      * 1. 폼이 이동했을 때 어떻게 할 것인가? < 해당 폼의 post에서 try-catch TODO

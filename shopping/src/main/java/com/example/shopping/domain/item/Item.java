@@ -1,9 +1,6 @@
 package com.example.shopping.domain.item;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
@@ -12,6 +9,8 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Item {
     private Long itemId;
     @NotNull(message = "상세 카테고리는 비어 있을 수 없습니다.")

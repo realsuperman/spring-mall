@@ -1,4 +1,4 @@
-<%@ page import="com.bit.shoppingmall.dto.OrderCancelDto" %>
+<%@ page import="com.example.shopping.dto.order.OrderCancelDto" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -124,7 +124,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
-                                <a href="${pageContext.request.contextPath}/orderSetList">Back To Order List</a>
+                                <a href="/user/my-page/order-set">Back To Order List</a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -186,7 +186,7 @@
             // orderCancelDtoList가 비어있지 않다면
             if (orderCancelDtoList.length > 0) {
                 $.ajax({
-                    url: "/orderCancel",
+                    url: "/order/cancel",
                     type: "PUT",
                     contentType: "application/json;charset=utf-8",
                     data: JSON.stringify(jsonData),
@@ -194,8 +194,8 @@
                         alert("주문 취소가 완료되었습니다");
                         window.location.href = "/"
                     },
-                    error: function(request, status, error) {
-                        alert(error);
+                    error: function(error) {
+                        alert(error.responseText);
                     }
                 });
             } else {

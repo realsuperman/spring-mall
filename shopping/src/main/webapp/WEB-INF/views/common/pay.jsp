@@ -30,7 +30,7 @@
         console.log(kakaoPayVO);
 
         $.ajax({
-            url: "/payment",
+            url: "/kakao/payment",
             type: "POST",
             data : {
                 kakaoPayVO: kakaoPayVO,
@@ -41,12 +41,12 @@
             success: function(result) {
                 sessionStorage.clear();
                 alert("결제 성공");
-                window.opener.location.href = '/home'
+                window.opener.location.href = '/'
             },
             error: function(error) { // 재고가 부족합니다 or 결제가 실패했습니다
                 alert(error.responseText);
             }
         });
-        window.close();
+        // window.close();
     });
 </script>

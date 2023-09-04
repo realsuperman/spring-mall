@@ -1,23 +1,21 @@
 package com.example.shopping.util;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 public class KakaoPayCommonProcess {
-    public static HttpURLConnection getKakaoConnection(String requestUrl, String payloadData) throws IOException {
-        URL url = new URL(requestUrl);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    public static ResponseEntity<String> getKakaoRestTemplate(String requestUrl, String payloadData) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        httpHeaders.set("Authorization", "KakaoAK 1c2665d0fbd94a38d95ac129fa3d165a");
 
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Authorization", "KakaoAK 1c2665d0fbd94a38d95ac129fa3d165a"); // TODO
-        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-        connection.setDoOutput(true);
+        HttpEntity<String> requestEntity = new HttpEntity<>(payloadData, httpHeaders);
 
-        DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
-        dos.writeBytes(payloadData);
-
-        return connection;
+        return new RestTemplate().exchange(
+                requestUrl,
+                HttpMethod.POST,
+                requestEntity,
+                String.class
+        );
     }
 }

@@ -172,7 +172,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a href="/orderCancel?orderSetId=${requestScope.orderSetId}">Cancel Order</a>
+                                <a href="/order/cancel/${requestScope.orderSetId}">Cancel Order</a>
                             </div>
                         </div>
                     </div>

@@ -11,11 +11,11 @@ import com.example.shopping.dto.order.OrderCancelDto;
 import com.example.shopping.dto.order.OrderInfoDto;
 import com.example.shopping.dto.order.OrderItemDto;
 import com.example.shopping.exception.MessageException;
-import com.example.shopping.util.KakaoPayProcess;
 import com.example.shopping.util.KakaoPayCancelVO;
+import com.example.shopping.util.KakaoPayProcess;
 import com.example.shopping.util.KakaoPayVO;
 import lombok.AllArgsConstructor;
-import org.apache.ibatis.session.SqlSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,18 +24,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final OrderDetailDao orderDetailDao;
     private final OrderSetDao orderSetDao;
     private final CartDao cartDao;
     private final CargoDao cargoDao;
-
-    private static final Logger logger = Logger.getLogger("Order Service");
 
     private final Long CARGO_STATUS_STOCK = 3L;
     private final Long CARGO_STATUS_RELEASE = 4L;
@@ -130,7 +128,7 @@ public class OrderService {
                 cancelAmount += (orderCancelDto.getBuyPrice() * orderCancelDto.getItemQuantity());
             }
 
-            logger.info("tid: "+orderSetDao.selectByOrderSetId(orderSetId).getOrderCode());
+            log.info("tid: "+orderSetDao.selectByOrderSetId(orderSetId).getOrderCode());
 
             KakaoPayCancelVO kakaoPayCancelVO = KakaoPayCancelVO.builder()
                     .tid(orderSetDao.selectByOrderSetId(orderSetId).getOrderCode())
@@ -146,7 +144,7 @@ public class OrderService {
         } catch (MessageException e) {
             throw e;
         } catch (Exception e) {
-
+            
         }
     }
 

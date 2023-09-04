@@ -12,9 +12,9 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ItemDao {
-    List<CategoryBestResponse> selectCategoryBest(long masterCategoryId, long limit);
+    List<CategoryBestResponse> selectBestsellersMatchingMasterCategoryId(long masterCategoryId, long limit);
 
-    List<CategoryRecentResponse> selectCategoryRecent(CategoryRecentRequest categoryRecentRequest);
+    List<CategoryRecentResponse> selectRecentsMatchingCategoryId(CategoryRecentRequest categoryRecentRequest);
 
     Item selectItemById(long itemId);
 
@@ -22,6 +22,5 @@ public interface ItemDao {
 
     int getItemCount(long categoryId);
 
-    Item selectByKey(long itemId);
     List<Category> selectLeafCategories();
 }

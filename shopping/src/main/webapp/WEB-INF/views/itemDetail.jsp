@@ -46,6 +46,7 @@
 <div style="position: relative; z-index: 1;     margin-top: 44px;">
     <jsp:include page="common/titleHeader.jsp"></jsp:include>
 
+    <input id="input-suc" type="hidden" value="${sucMsg}" />
 <section class="shop spad">
     <section class="shopping-cart spad">
         <div class = "container">
@@ -95,7 +96,7 @@
                         </div>
 
 
-                    <form action="/cart" method = "POST" class="formButton">
+                    <form action="/cart/insert" method = "POST" class="formButton">
                         <input type = "hidden" id = "putInCartDto" name = "putInCartDto">
                         <button type = "submit" id = "addCartButton" class= "primary-btn btn-order">장바구니 담기</button>
                     </form>
@@ -196,22 +197,22 @@ function errorModal(msg) {
     toastr["error"](msg);
 }
 
-const queryString = window.location.search;
+// const queryString = window.location.search;
 
 // 쿼리 문자열을 파싱하여 객체로 변환
-const queryParams = new URLSearchParams(queryString);
+// const queryParams = new URLSearchParams(queryString);
+// console.log("queryParams : ", queryParams);
 
 // 특정 쿼리 매개변수 값 가져오기
-const sucMsg = queryParams.get('sucMsg');
+// const sucMsg = queryParams.get('sucMsg');
 
-console.log("sucMsg: ", sucMsg);
-
-if (sucMsg != null) {
-   successModal(sucMsg);
-}
 
 </script>
 <script>
+    let sucMsg = $("#input-suc").val();
+    if(sucMsg != "") {
+        successModal(sucMsg);
+    }
     let count = $("#input-val").val() * 1;
     let cargoCnt = document.getElementById("cargoCnt").value * 1;
     if(cargoCnt > 10){
@@ -281,14 +282,12 @@ if (sucMsg != null) {
             if(isLogined){
                 let data = {
                     "itemId" : itemId,
-                    "itemName" : itemName,
-                    "itemPrice" : itemPrice,
                     "itemQuantity" : count,
-                    "itemImagePath" : itemImagePath,
                 };
                 let jsonData = JSON.stringify(data);
                 console.log("jsonData: ", jsonData);
                 $("#putInCartDto").val(jsonData);
+                alert("장바구니 담기 전송 성공");
             }else{
                 window.alert("장바구니 기능은 로그인 후 이용하실 수 있습니다.");
                 event.preventDefault();

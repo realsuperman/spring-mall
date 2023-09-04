@@ -1,9 +1,9 @@
 package com.example.shopping.service.cart;
 
 import com.example.shopping.dao.cart.CartDao;
-import com.example.shopping.domain.cart.CartItem;
+import com.example.shopping.domain.cart.*;
 import com.example.shopping.dto.cart.CartItemDto;
-import com.example.shopping.dto.cart.CartUpdateDto;
+import com.example.shopping.dto.cart.PutInCartDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,11 @@ public class CartService {
      * @return List<CartItem>
      */
     public List<CartItem> showByConsumerId(long sessionConsumerId) {
-        return cartDao.selectByConsumerId(sessionConsumerId);
+        return cartDao.selectListByConsumeId(sessionConsumerId);
+    }
+
+    public List<CartItem> showByConsumerIdWithPaging(CartPageVo vo) {
+        return cartDao.selectListWithPaging(vo);
     }
 
     /**
@@ -65,11 +69,38 @@ public class CartService {
         return dtos;
     }
 
-    public void modifyItemQuantity(CartUpdateDto dto) {
-        cartDao.updateItemQuantityByCartId(dto);
+    public void modifyItemQuantity(Long cartId, Long itemQuantity) {
+        CartUpdateVo vo = CartUpdateVo.builder()
+                .cartId(cartId)
+                .itemQuantity(itemQuantity)
+                .build();
+        cartDao.updateItemQuantityByCartId(vo);
     }
 
     public CartItem showByCartId(long cartId) {
-        return cartDao.selectByCartId(cartId);
+        CartSelectVo vo = CartSelectVo.builder()
+                .cartId(cartId)
+                .build();
+        return (CartItem)cartDao.selectByVo(vo);
+    }
+
+    public CartPager setUpPaging(CartPageVo vo, Integer size) {
+        CartPager pager = new CartPager();
+        pager.setUpPaging(vo);
+        pager.setUpCartItemSize(size);
+        return pager;
+    }
+
+    public void removeByCartId(Long cartId) {
+        cartDao.deleteByCartId(cartId);
+    }
+
+    public void register(PutInCartDto putInCartDto, Long consumerId) {
+        CartInsertVo vo = CartInsertVo.builder()
+                .itemId(putInCartDto.getItemId())
+                .itemQuantity(putInCartDto.getItemQuantity())
+                .consumerId(consumerId)
+                .build();
+        cartDao.insert(vo);
     }
 }

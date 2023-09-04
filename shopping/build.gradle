@@ -39,6 +39,10 @@ dependencies {
 	// jsp 사용
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'javax.servlet:jstl'
+
+	// junit jupiter api
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.2'
+
 }
 
 tasks.named('test') {

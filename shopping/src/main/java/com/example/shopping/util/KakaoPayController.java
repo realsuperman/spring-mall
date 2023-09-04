@@ -1,10 +1,13 @@
 package com.example.shopping.util;
 
 import com.example.shopping.domain.user.Consumer;
+import com.example.shopping.dto.order.OrderCancelRequestDto;
 import com.example.shopping.dto.order.OrderInfoDto;
 import com.example.shopping.dto.order.OrderItemDto;
+import com.example.shopping.dto.order.OrderRequestDto;
 import com.example.shopping.exception.MessageException;
 import com.example.shopping.service.order.OrderService;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
+import java.io.DataInput;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -26,7 +32,7 @@ public class KakaoPayController {
 
     private final OrderService orderService;
 
-    @PostMapping("")
+    @PostMapping
     @ResponseBody
     public String kakaoPayReady(
             @RequestParam String partnerOrderId, @RequestParam String partnerUserId, @RequestParam String itemName,
@@ -64,26 +70,24 @@ public class KakaoPayController {
         return "common/pay";
     }
 
-    // TODO : controller까진 왔음. 받는 쪽에서 pay.jsp의 context-type이나 parameter쪽만 수정하면 될 듯
     @PostMapping("/payment")
-    public String kakaoPayApprove(
-            HttpSession httpSession,
-//                                @RequestParam OrderInfoDto orderInfoDto,
-//                                @RequestParam KakaoPayVO kakaoPayVO,
-//                                @RequestParam(value = "orderItemDtoList") List<OrderItemDto> list
-            @RequestBody OrderInfoDto orderInfoDto,
-            @RequestBody KakaoPayVO kakaoPayVO,
-            @RequestBody
-    ) throws JsonProcessingException {
-
+    public String kakaoPayApprove(HttpSession httpSession, @RequestBody OrderRequestDto orderRequestDto) throws IOException {
         Consumer consumer = (Consumer) httpSession.getAttribute("login_user");
         Long customerId = consumer.getConsumerId();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<OrderItemDto> orderItemDtoList = objectMapper.readValue(list, new TypeReference<>() {});
+        log.info(orderRequestDto.toString());
 
-        orderService.order(customerId, orderInfoDto, orderItemDtoList, kakaoPayVO);
+        orderService.order(customerId, orderRequestDto.getOrderInfoDto(), orderRequestDto.getOrderItemDtoList(), orderRequestDto.getKakaoPayVO());
 
+        return "redirect:/";
+    }
+
+    @PutMapping("/cancel")
+    public String kakaoPayCancel(@RequestBody OrderCancelRequestDto orderCancelRequestDto) {
+        log.info(orderCancelRequestDto.getOrderCancelDtoList().toString());
+        log.info(orderCancelRequestDto.getOrderSetId().toString());
+
+        orderService.cancelOrder(orderCancelRequestDto.getOrderSetId(), orderCancelRequestDto.getOrderCancelDtoList());
         return "redirect:/";
     }
 }

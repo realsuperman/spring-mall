@@ -1,14 +1,13 @@
 package com.example.shopping.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Builder
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString
 public class KakaoPayVO {
     private String cid;
     private String tid;

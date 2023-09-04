@@ -186,7 +186,7 @@
             // orderCancelDtoList가 비어있지 않다면
             if (orderCancelDtoList.length > 0) {
                 $.ajax({
-                    url: "/order/cancel",
+                    url: "/kakao/cancel",
                     type: "PUT",
                     contentType: "application/json;charset=utf-8",
                     data: JSON.stringify(jsonData),

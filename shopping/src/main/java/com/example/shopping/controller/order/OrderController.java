@@ -71,13 +71,6 @@ public class OrderController {
     }
 
     // TODO : return type
-    @PutMapping("/order/cancel")
-    public void cancelOrder(@RequestBody OrderCancelRequestDto orderCancelRequestDto) {
-        log.info(orderCancelRequestDto.getOrderCancelDtoList().toString());
-        log.info(orderCancelRequestDto.getOrderSetId().toString());
-
-        orderService.cancelOrder(orderCancelRequestDto.getOrderSetId(), orderCancelRequestDto.getOrderCancelDtoList());
-    }
 
     /*
      @RequestParam + Model (O)

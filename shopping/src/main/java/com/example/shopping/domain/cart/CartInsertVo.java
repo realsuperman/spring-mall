@@ -5,6 +5,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CartSelectVo {
+public class CartInsertVo {
+    private Long itemId;
+    private Long itemQuantity;
     private Long cartId;
+    private Long consumerId;
 }

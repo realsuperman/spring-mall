@@ -4,19 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.shopping.dao.cart.CartDao">
+    <select id = "selectListByConsumeId" parameterType="long" resultType="CartItem">
+        SELECT *
+        FROM cart_item
+        WHERE consumer_id = #{_parameter}
+    </select>
     <select id = "selectByVo" parameterType="CartSelectVo" resultType="CartItem">
         SELECT *
         FROM cart_item
-        <if test="consumerId != null">
-            WHERE consumer_id = #{consumerId}
-        </if>
         <if test="cartId != null">
             WHERE cart_id = #{cartId}
         </if>
     </select>
+    <select id="selectListWithPaging" parameterType="CartPageVo" resultType="CartItem">
+        SELECT *
+        FROM cart_item
+        WHERE consumer_id = #{consumerId}
+        LIMIT #{itemStartNo}, #{amount}
+    </select>
+    <insert id="insert" parameterType="CartInsertVo">
+        INSERT INTO cart_item VALUES(#{itemId}, #{itemQuantity}, nextval('cart_seq'), #{consumerId})
+    </insert>
     <update id="updateItemQuantityByCartId" parameterType="CartUpdateVo">
         UPDATE cart_item
         SET item_quantity=#{itemQuantity}
         WHERE cart_id=#{cartId}
     </update>
+    <delete id="deleteByCartId" parameterType="Long">
+        DELETE FROM cart_item
+        WHERE cart_id=#{_parameter}
+    </delete>
 </mapper>

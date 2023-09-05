@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="common/commonScript.jsp" %>
 
 <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>--%>
@@ -9,7 +10,7 @@
 
 <script>
     $(function () {
-        let orderCode = self.crypto.randomUUID();
+        let orderCode = "ORDERCODE";
         let orderInfoDto = {
             orderCode: orderCode,
             orderAddress: $("#orderAddress").val(),
@@ -268,10 +269,13 @@
                 <div class="row">
                     <div class="p-2">
                         <c:set var="totalBuyPrice" value="0"/>
+                        <c:set var="discountRate" value="${sessionScope.discount_rate}"/>
                         <fn:forEach items="${requestScope.orderItemDtoList}" var="orderItemDto">
                             <c:set var="productSum" value="${orderItemDto.itemQuantity * orderItemDto.itemPrice}"/>
                             <c:set var="totalBuyPrice" value="${totalBuyPrice + productSum}"/>
                         </fn:forEach>
+                        <c:set var="discountedTotalPrice" value="${(totalBuyPrice * (1-discountRate))}"/>
+                        <fmt:formatNumber var="intDiscountedTotalPrice" type="number" maxFractionDigits="0" value="${discountedTotalPrice}"/>
                         <table>
                             <thead>
                             <tr>
@@ -281,7 +285,7 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    ${totalBuyPrice}원
+                                    ${intDiscountedTotalPrice}원
                                 </td>
                             </tr>
                             </tbody>

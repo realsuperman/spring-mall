@@ -6,7 +6,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
@@ -15,13 +14,12 @@ public class ExceptionAdvice {
     static final String INTERNAL_SERVER_ERROR = "error/500";
 
     @ExceptionHandler(MessageException.class)
-    @ResponseBody
     public ResponseEntity<String> handleMessageException(MessageException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
-    public String handleBadCredentialsException(Model model) {
+        public String handleBadCredentialsException(Model model) {
         model.addAttribute("errorMsg", "존재하지 않는 계정입니다.");
         return "userLoginRegister";
     }

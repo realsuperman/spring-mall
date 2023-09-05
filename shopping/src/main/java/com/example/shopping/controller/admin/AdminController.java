@@ -3,7 +3,6 @@ package com.example.shopping.controller.admin;
 import com.example.shopping.dto.cargo.StockStatDto;
 import com.example.shopping.service.cargo.CargoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +35,6 @@ public class AdminController {
     }
 
     @GetMapping(value = "/{path}/rest")
-    @ResponseBody
     public ResponseEntity stockAndStatRest(@PathVariable String path, @RequestParam(required = false) String itemName,
                                            @RequestParam(required = false) Long page){
         validatePath(path);
@@ -61,7 +59,6 @@ public class AdminController {
     }
 
     @PatchMapping("/stock/stat")
-    @ResponseBody
     public ResponseEntity<String> updateStockStat(@RequestBody List<StockStatDto> cargoStatusArray){
         cargoService.updateStockStat(cargoStatusArray);
         return ResponseEntity.ok("SUCCESS");

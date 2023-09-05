@@ -162,79 +162,11 @@
     <%@ include file="common/errorMsgAlert.jsp" %>
 </div>
 
-<script>
-    function userInfoUpdate() {
-
-        let UpdateUserRequest = {
-            updatePhoneNumber: $('#phone_number').val(),
-            updateAddress: $('#address').val(),
-            updateAddressDetail: $('#address_detail').val()
-        };
-
-        console.log(UpdateUserRequest);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("PATCH", "/user/info", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    window.location.href = "/user/my-page"
-                } else if (xhr.status === 400){
-                    alert(xhr.responseText);
-                } else {
-                    alert("사용자 정보 수정에 실패하였습니다.");
-                }
-            }
-        };
-        xhr.send(JSON.stringify(UpdateUserRequest));
-
-    }
-
-
-    function userPassUpdate() {
-
-        let UpdatePasswordRequest = {
-            originalPassword: $('#original_password').val(),
-            updatePassword: $('#update_password').val(),
-        };
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("PATCH", "/user/pass", true);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    window.location.href = "/user/my-page"
-                } else if (xhr.status === 400){
-                    alert(xhr.responseText);
-                } else {
-                    alert("사용자 정보 수정에 실패하였습니다.");
-                }
-            }
-        };
-        xhr.onerror = function () {
-            alert("요청 실패하였습니다.");
-        };
-        xhr.send(JSON.stringify(UpdatePasswordRequest));
-    }
-
-    $(".user-update-form").submit(function(event) {
-        event.preventDefault();
-        userInfoUpdate()
-    })
-
-    $(".pass-update-form").submit(function(event) {
-        event.preventDefault();
-        userPassUpdate();
-    })
-
-</script>
-
 <%-- 유저 관련 script --%>
 <script  src="../../static/js/userscript.js"></script>
 <script src="../../static/js/password-modal-script.js"></script>
 <script src="../../static/js/address-modal-script.js"></script>
+<script  src="../../static/js/user-update-script.js"
 
 <%-- 다음 주소 api --%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

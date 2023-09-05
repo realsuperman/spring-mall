@@ -1,6 +1,4 @@
-# spring-mall
-
-### 🛍️ Project _ 쇼핑몰
+# 🛍️ Project _ 쇼핑몰
 
 <span style="color:gray">*__Project Summary__*</span>
  
@@ -56,7 +54,7 @@
 
 
 ### 4. 장바구니 관련 기능 
-**  🙋‍♀️ 일반 유저 전용**
+  **🙋‍♀️ 일반 유저 전용**
 
 - 상품 장바구니 추가/수정/삭제
 - CART TOTAL로 최종 주문 건 확인 가능
@@ -75,7 +73,7 @@
   
 - 상품 추가
 - 상품 상태 관리
-- 재고 관
+- 재고 관리
 
 # 3. 프로젝트 설계 및 개발
 
@@ -86,23 +84,27 @@
 
 - **Back**
 
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white"> ![](https://img.shields.io/badge/Java-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white">
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white"> ![](https://img.shields.io/badge/Java-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/SpringSecurity-DB33F?style=flat&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/MyBatis-007054?style=flat&logo=MyBatis&logoColor=white">  <img src="https://img.shields.io/badge/kakaoAPI-FFCD00?style=flat&logo=kakao&logoColor=white">
 
 - **Front**
 
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white">  ![](https://img.shields.io/badge/JSP-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/jquery-0769AD?style=flat&logo=jquery&logoColor=white"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white">  ![](https://img.shields.io/badge/JSP-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/jquery-0769AD?style=flat&logo=jquery&logoColor=white"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/AJAX-5A29E4?style=flat&logo=AJAX&logoColor=white">
 
 - **DB**
 
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/MyBatis-007054?style=flat&logo=MyBatis&logoColor=white">
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"> 
 
 - **Cloud**
   
-<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat&logo=Amazon AWS&logoColor=white">  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat&logo=Amazon RDS&logoColor=white"> 
+<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat&logo=Amazon AWS&logoColor=white">  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=Amazon EC2&logoColor=white"> 
 
-- **기타**
-  
-<img src="https://img.shields.io/badge/RestTemplate-6DB33F?style=flat&logo=Spring Boot&logoColor=white">  <img src="https://img.shields.io/badge/SpringSecurity-DB33F?style=flat&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/AJAX-5A29E4?style=flat&logo=AJAX&logoColor=white"> <img src="https://img.shields.io/badge/kakaoAPI-FFCD00?style=flat&logo=kakao&logoColor=white"> <img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white">
+- **IDE**
+
+<img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white">
+ 
+- **협력 툴 및 프로젝트 관리**
+
+ <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white">  <img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white"> 
 
 
 ## 2. 서비스 아키텍처

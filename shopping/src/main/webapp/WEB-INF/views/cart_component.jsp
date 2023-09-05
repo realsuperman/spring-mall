@@ -99,7 +99,7 @@
     <div class="row my-3">
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="continue__btn">
-                <a href="/home">Continue Shopping</a>
+                <a href="/">Continue Shopping</a>
             </div>
         </div>
     </div>

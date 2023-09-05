@@ -4,8 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
-<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-        crossorigin="anonymous"></script>
+<%--<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="--%>
+<%--        crossorigin="anonymous"></script>--%>
+<script src="../../static/js/jquery-3.3.1.min.js"></script>
 
 <style>
     .input-val {
@@ -30,14 +31,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../static/css_test/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/style.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>

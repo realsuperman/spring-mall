@@ -2,13 +2,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="common/commonScript.jsp" %>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<%--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>--%>
+<script src="../../static/js/jquery-3.3.1.min.js"></script>
 
 <script>
     $(function () {
-        let orderCode = self.crypto.randomUUID();
+        let orderCode = "ORDERCODE";
         let orderInfoDto = {
             orderCode: orderCode,
             orderAddress: $("#orderAddress").val(),
@@ -46,6 +48,11 @@
             formData.quantity += orderItemDto.itemQuantity;
             formData.totalAmount += (orderItemDto.itemPrice * orderItemDto.itemQuantity);
         });
+
+        let discount_rate = <%= session.getAttribute("discount_rate") %>;
+
+        formData.totalAmount -= formData.totalAmount * discount_rate;
+        formData.totalAmount = Math.ceil(formData.totalAmount);
         formData.taxFreeAmount = formData.totalAmount;
 
         $("button[name='callKakaoPay']").on("click", function () {
@@ -68,14 +75,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../static/css_test/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../static/css_test/style.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../static/css/style.css" type="text/css">
 
 </head>
 <body>
@@ -262,10 +269,13 @@
                 <div class="row">
                     <div class="p-2">
                         <c:set var="totalBuyPrice" value="0"/>
+                        <c:set var="discountRate" value="${sessionScope.discount_rate}"/>
                         <fn:forEach items="${requestScope.orderItemDtoList}" var="orderItemDto">
                             <c:set var="productSum" value="${orderItemDto.itemQuantity * orderItemDto.itemPrice}"/>
                             <c:set var="totalBuyPrice" value="${totalBuyPrice + productSum}"/>
                         </fn:forEach>
+                        <c:set var="discountedTotalPrice" value="${(totalBuyPrice * (1-discountRate))}"/>
+                        <fmt:formatNumber var="intDiscountedTotalPrice" type="number" maxFractionDigits="0" value="${discountedTotalPrice}"/>
                         <table>
                             <thead>
                             <tr>
@@ -275,7 +285,7 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    ${totalBuyPrice}원
+                                    ${intDiscountedTotalPrice}원
                                 </td>
                             </tr>
                             </tbody>
@@ -299,15 +309,15 @@
 
 
 <!-- Js Plugins -->
-<script src="../static/js_test/jquery-3.3.1.min.js"></script>
-<script src="../static/js_test/bootstrap.min.js"></script>
-<script src="../static/js_test/jquery.nice-select.min.js"></script>
-<script src="../static/js_test/jquery.nicescroll.min.js"></script>
-<script src="../static/js_test/jquery.magnific-popup.min.js"></script>
-<script src="../static/js_test/jquery.countdown.min.js"></script>
-<script src="../static/js_test/jquery.slicknav.js"></script>
-<script src="../static/js_test/mixitup.min.js"></script>
-<script src="../static/js_test/owl.carousel.min.js"></script>
-<script src="../static/js_test/main.js"></script>
+<script src="../../static/js/jquery-3.3.1.min.js"></script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<script src="../../static/js/jquery.nice-select.min.js"></script>
+<script src="../../static/js/jquery.nicescroll.min.js"></script>
+<script src="../../static/js/jquery.magnific-popup.min.js"></script>
+<script src="../../static/js/jquery.countdown.min.js"></script>
+<script src="../../static/js/jquery.slicknav.js"></script>
+<script src="../../static/js/mixitup.min.js"></script>
+<script src="../../static/js/owl.carousel.min.js"></script>
+<script src="../../static/js/main.js"></script>
 </body>
 </html>

@@ -61,18 +61,14 @@ public class KakaoPayController {
     }
 
     @PostMapping("/payment")
-    public String kakaoPayApprove(HttpSession httpSession, @RequestBody OrderRequestDto orderRequestDto) throws IOException {
+    public ResponseEntity<?> kakaoPayApprove(HttpSession httpSession, @RequestBody OrderRequestDto orderRequestDto) throws IOException {
         Consumer consumer = (Consumer) httpSession.getAttribute("login_user");
         Long customerId = consumer.getConsumerId();
 
         log.info(orderRequestDto.toString());
 
-        try {
-            orderService.order(customerId, orderRequestDto.getOrderInfoDto(), orderRequestDto.getOrderItemDtoList(), orderRequestDto.getKakaoPayVO());
-        } catch (MessageException e) {
-            return "redirect:/";
-        }
-        return "redirect:/";
+        orderService.order(customerId, orderRequestDto.getOrderInfoDto(), orderRequestDto.getOrderItemDtoList(), orderRequestDto.getKakaoPayVO());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/cancel")

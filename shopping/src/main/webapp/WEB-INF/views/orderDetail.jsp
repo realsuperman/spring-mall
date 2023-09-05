@@ -4,6 +4,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <html lang="zxx">
 <head>
     <meta charset="UTF-8">
@@ -18,14 +20,14 @@
           rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/style.css" type="text/css">
 </head>
 
 <body>
@@ -184,16 +186,16 @@
 <!-- Shopping Cart Section End -->
 
 <!-- Js Plugins -->
-<script src="../../static/js/jquery-3.3.1.min.js"></script>
-<script src="../../static/js/bootstrap.min.js"></script>
-<script src="../../static/js/jquery.nice-select.min.js"></script>
-<script src="../../static/js/jquery.nicescroll.min.js"></script>
-<script src="../../static/js/jquery.magnific-popup.min.js"></script>
-<script src="../../static/js/jquery.countdown.min.js"></script>
-<script src="../../static/js/jquery.slicknav.js"></script>
-<script src="../../static/js/mixitup.min.js"></script>
-<script src="../../static/js/owl.carousel.min.js"></script>
-<script src="../../static/js/main.js"></script>
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.nice-select.min.js"></script>
+<script src="/static/js/jquery.nicescroll.min.js"></script>
+<script src="/static/js/jquery.magnific-popup.min.js"></script>
+<script src="/static/js/jquery.countdown.min.js"></script>
+<script src="/static/js/jquery.slicknav.js"></script>
+<script src="/static/js/mixitup.min.js"></script>
+<script src="/static/js/owl.carousel.min.js"></script>
+<script src="/static/js/main.js"></script>
 
 
 </body>

@@ -35,6 +35,10 @@
 <div id="preloder" style="display: none;">
     <div class="loader" style="display: none;"></div>
 </div>
+<!-- Header Section -->
+<jsp:include page="common/header.jsp"></jsp:include>
+<div style="position: relative; z-index: 1;     margin-top: 44px;">
+    <jsp:include page="common/mypageHeader.jsp"></jsp:include>
 
 <!-- Shopping Cart Section Begin -->
 <section class="shopping-cart spad">
@@ -183,6 +187,9 @@
         </div>
     </div>
 </section>
+    <jsp:include page="common/footer.jsp"></jsp:include>
+
+</div>
 <!-- Shopping Cart Section End -->
 
 <!-- Js Plugins -->

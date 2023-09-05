@@ -111,6 +111,8 @@
             </div>
         </div>
     </form>
+    <jsp:include page="common/footer.jsp"></jsp:include>
+
 </div>
 
 <!-- 에러 메시지 alert -->

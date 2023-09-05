@@ -1,7 +1,6 @@
 package com.example.shopping.controller.order;
 
 import com.example.shopping.domain.user.Consumer;
-import com.example.shopping.dto.order.OrderCancelRequestDto;
 import com.example.shopping.dto.order.OrderDetailDto;
 import com.example.shopping.dto.order.OrderItemDto;
 import com.example.shopping.service.order.OrderDetailService;
@@ -27,7 +26,6 @@ public class OrderController {
 
     private final OrderDetailService orderDetailService;
     private final OrderSetService orderSetService;
-    private final OrderService orderService;
 
     @GetMapping("/user/my-page/order-set")
     public String getOrderSets(HttpSession httpSession, Model model) {

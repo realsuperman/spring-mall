@@ -2,27 +2,17 @@ package com.example.shopping.util;
 
 import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.dto.order.OrderCancelRequestDto;
-import com.example.shopping.dto.order.OrderInfoDto;
-import com.example.shopping.dto.order.OrderItemDto;
 import com.example.shopping.dto.order.OrderRequestDto;
 import com.example.shopping.exception.MessageException;
 import com.example.shopping.service.order.OrderService;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
-import java.io.DataInput;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -78,16 +68,14 @@ public class KakaoPayController {
         log.info(orderRequestDto.toString());
 
         orderService.order(customerId, orderRequestDto.getOrderInfoDto(), orderRequestDto.getOrderItemDtoList(), orderRequestDto.getKakaoPayVO());
-
         return "redirect:/";
     }
 
     @PutMapping("/cancel")
-    public String kakaoPayCancel(@RequestBody OrderCancelRequestDto orderCancelRequestDto) {
+    public void kakaoPayCancel(@RequestBody OrderCancelRequestDto orderCancelRequestDto) {
         log.info(orderCancelRequestDto.getOrderCancelDtoList().toString());
         log.info(orderCancelRequestDto.getOrderSetId().toString());
 
         orderService.cancelOrder(orderCancelRequestDto.getOrderSetId(), orderCancelRequestDto.getOrderCancelDtoList());
-        return "redirect:/";
     }
 }

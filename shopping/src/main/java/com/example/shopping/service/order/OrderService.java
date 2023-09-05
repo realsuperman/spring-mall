@@ -42,7 +42,7 @@ public class OrderService {
 
     @Transactional
     public void order(Long consumerId, OrderInfoDto orderInfoDto, List<OrderItemDto> orderItemDtoList, KakaoPayVO kakaoPayVO) {
-        try { // kakao 결제 요청 단계 이후, DB 수정 작업과 kakao 결제 승인 단계가 한 트랜잭션으로 묶인다.
+        // kakao 결제 요청 단계 이후, DB 수정 작업과 kakao 결제 승인 단계가 한 트랜잭션으로 묶인다.
 
             /* TODO
              cargoDao.selectCountByItemId
@@ -57,94 +57,86 @@ public class OrderService {
              이후 갯수 관련 체크는 service에서?
              */
 
-            throwExceptionIfInsufficientCargo(orderItemDtoList);
+        throwExceptionIfInsufficientCargo(orderItemDtoList);
 
-            List<Cargo> cargoToDeliver = getCargoToDeliver(orderItemDtoList);
+        List<Cargo> cargoToDeliver = getCargoToDeliver(orderItemDtoList);
 
-            // update cargo_id.status
-            for (Cargo cargo : cargoToDeliver) {
-                Map<String, Long> cargoAndStatus = new HashMap<>();
-                cargoAndStatus.put("cargoId", cargo.getCargoId());
-                cargoAndStatus.put("statusId", CARGO_STATUS_RELEASE);
+        // update cargo_id.status
+        for (Cargo cargo : cargoToDeliver) {
+            Map<String, Long> cargoAndStatus = new HashMap<>();
+            cargoAndStatus.put("cargoId", cargo.getCargoId());
+            cargoAndStatus.put("statusId", CARGO_STATUS_RELEASE);
 
-                cargoDao.updateCargoStatusByCargoId(cargoAndStatus);
-            }
+            cargoDao.updateCargoStatusByCargoId(cargoAndStatus);
+        }
 
-            // insert order_set
-            OrderSet orderSet = OrderSet.builder()
-                    .consumerId(consumerId)
-                    .orderCode(kakaoPayVO.getTid()) // 취소를 위해서는 kakao tid 저장해야함
-                    .orderAddress(orderInfoDto.getOrderAddress())
-                    .orderPhoneNumber(orderInfoDto.getOrderPhoneNumber())
-                    .build();
-            orderSetDao.insertOrderSet(orderSet);
+        // insert order_set
+        OrderSet orderSet = OrderSet.builder()
+                .consumerId(consumerId)
+                .orderCode(kakaoPayVO.getTid()) // 취소를 위해서는 kakao tid 저장해야함
+                .orderAddress(orderInfoDto.getOrderAddress())
+                .orderPhoneNumber(orderInfoDto.getOrderPhoneNumber())
+                .build();
+        orderSetDao.insertOrderSet(orderSet);
 
-            // insert order_detail
-            List<OrderDetail> orderDetailsToInsert = makeOrderDetailsToInsert(orderSet.getOrderSetId(), orderItemDtoList, cargoToDeliver);
-            orderDetailDao.insertOrderDetail(orderDetailsToInsert);
+        // insert order_detail
+        List<OrderDetail> orderDetailsToInsert = makeOrderDetailsToInsert(orderSet.getOrderSetId(), orderItemDtoList, cargoToDeliver);
+        orderDetailDao.insertOrderDetail(orderDetailsToInsert);
 
-            // delete cart_item
-            cartDao.deleteByCartId(orderItemDtoList);
+        // delete cart_item
+        cartDao.deleteByCartId(orderItemDtoList);
 
-            // kakao 결제 승인 phase
-            if (KakaoPayProcess.approve(kakaoPayVO) != HttpServletResponse.SC_OK) {
-                throw new MessageException("결제가 실패했습니다");
-            }
-        } catch (MessageException e) {
-            throw e;
-        } catch (Exception e) {
-
+        // kakao 결제 승인 phase
+        int kakaoResponseCode = KakaoPayProcess.approve(kakaoPayVO);
+        if (kakaoResponseCode != HttpServletResponse.SC_OK) {
+            throw new MessageException("결제가 실패했습니다");
         }
     }
 
     @Transactional
     public void cancelOrder(Long orderSetId, List<OrderCancelDto> orderCancelDtoList) {
-        try {
-            List<Map<String, Long>> cargoAndOrderDetails = new ArrayList<>();
-            // orderSetId, itemId, itemQuantity를 통해 주문 취소할 cargo를 찾는다
-            for(OrderCancelDto orderCancelDto: orderCancelDtoList) {
-                Map<String, Long> map = new HashMap<>();
-                map.put("orderSetId", orderSetId);
-                map.put("itemId", orderCancelDto.getItemId());
-                map.put("itemQuantity", orderCancelDto.getItemQuantity());
-                cargoAndOrderDetails.addAll(orderDetailDao.getCancelOrderDetailIdAndCargoId(map));
-            }
+        List<Map<String, Long>> cargoAndOrderDetails = new ArrayList<>();
+        // orderSetId, itemId, itemQuantity를 통해 주문 취소할 cargo를 찾는다
+        for(OrderCancelDto orderCancelDto: orderCancelDtoList) {
+            Map<String, Long> map = new HashMap<>();
+            map.put("orderSetId", orderSetId);
+            map.put("itemId", orderCancelDto.getItemId());
+            map.put("itemQuantity", orderCancelDto.getItemQuantity());
+            cargoAndOrderDetails.addAll(orderDetailDao.getCancelOrderDetailIdAndCargoId(map));
+        }
+        log.info(cargoAndOrderDetails.toString());
 
-            // 각 cargo와 order_detail의 status_id를 수정한다
-            for(Map<String, Long> cargoAndOrderDetail: cargoAndOrderDetails) {
-                Map<String, Long> cargo = new HashMap<>();
-                cargo.put("statusId", CARGO_STATUS_STOCK);
-                cargo.put("cargoId", cargoAndOrderDetail.get("cargoId"));
-                cargoDao.updateCargoStatusByCargoId(cargo);
+        // 각 cargo와 order_detail의 status_id를 수정한다
+        for(Map<String, Long> cargoAndOrderDetail: cargoAndOrderDetails) {
+            Map<String, Long> cargo = new HashMap<>();
+            cargo.put("cargoId", cargoAndOrderDetail.get("cargo_id"));
+            cargo.put("statusId", CARGO_STATUS_STOCK);
+            log.info(""+cargoDao.updateCargoStatusByCargoId(cargo));
 
-                Map<String, Long> orderDetail = new HashMap<>();
-                orderDetail.put("orderDetailId", cargoAndOrderDetail.get("orderDetailId"));
-                orderDetail.put("statusId", ORDER_STATUS_ORDER_CANCEL);
-                orderDetailDao.updateOrderDetailStatusByOrderDetailId(orderDetail);
-            }
+            Map<String, Long> orderDetail = new HashMap<>();
+            orderDetail.put("orderDetailId", cargoAndOrderDetail.get("order_detail_id"));
+            orderDetail.put("statusId", ORDER_STATUS_ORDER_CANCEL);
+            log.info(""+orderDetailDao.updateOrderDetailStatusByOrderDetailId(orderDetail));
+        }
 
-            long cancelAmount = 0L;
-            for(OrderCancelDto orderCancelDto: orderCancelDtoList) {
-                cancelAmount += (orderCancelDto.getBuyPrice() * orderCancelDto.getItemQuantity());
-            }
+        long cancelAmount = 0L;
+        for(OrderCancelDto orderCancelDto: orderCancelDtoList) {
+            cancelAmount += (orderCancelDto.getBuyPrice() * orderCancelDto.getItemQuantity());
+        }
 
-            log.info("tid: "+orderSetDao.selectByOrderSetId(orderSetId).getOrderCode());
+        log.info("tid: "+orderSetDao.selectByOrderSetId(orderSetId).getOrderCode());
 
-            KakaoPayCancelVO kakaoPayCancelVO = KakaoPayCancelVO.builder()
-                    .tid(orderSetDao.selectByOrderSetId(orderSetId).getOrderCode())
-                    .cid("TC0ONETIME")
-                    .cancelAmount((int) cancelAmount)
-                    .cancelTaxFreeAmount((int) cancelAmount)
-                    .build();
+        KakaoPayCancelVO kakaoPayCancelVO = KakaoPayCancelVO.builder()
+                .tid(orderSetDao.selectByOrderSetId(orderSetId).getOrderCode())
+                .cid("TC0ONETIME")
+                .cancelAmount((int) cancelAmount)
+                .cancelTaxFreeAmount((int) cancelAmount)
+                .build();
 
-            // kakao 결제 취소
-            if(KakaoPayProcess.cancel(kakaoPayCancelVO) != HttpServletResponse.SC_OK) {
-                throw new MessageException("결제 취소가 실패했습니다");
-            }
-        } catch (MessageException e) {
-            throw e;
-        } catch (Exception e) {
-            
+        // kakao 결제 취소
+        int kakaoResponseCode = KakaoPayProcess.cancel(kakaoPayCancelVO);
+        if(kakaoResponseCode != HttpServletResponse.SC_OK) {
+            throw new MessageException("결제 취소가 실패했습니다");
         }
     }
 

@@ -1,6 +1,4 @@
-# spring-mall
-
-### 🛍️ Project _ 쇼핑몰
+# 🛍️ Project _ 쇼핑몰
 
 <span style="color:gray">*__Project Summary__*</span>
  
@@ -10,7 +8,7 @@
 
 **✔️ 프로젝트 기간**
 
-2023.08.14 ~ 2023.08.30
+2023.08.14 ~ 2023.09.05
 
 **✔️ 홈페이지 명**
 
@@ -56,14 +54,14 @@
 
 
 ### 4. 장바구니 관련 기능 
-  🙋‍♀️ 일반 유저 전용
+  **🙋‍♀️ 일반 유저 전용**
 
 - 상품 장바구니 추가/수정/삭제
 - CART TOTAL로 최종 주문 건 확인 가능
 - 페이지네이션
 
 ### 5. 주문 관련 기능 
-  🙋‍♀️ 일반 유저 전용
+  **🙋‍♀️ 일반 유저 전용**
 
 - 주문 및 주문 취소 
 - 주문 목록 확인 하기
@@ -71,10 +69,11 @@
 - 카카오 페이 API
 
 ### 6. 관리자 관련 기능 
-  🧑‍💼어드민 유저 전용
+  **🧑‍💼어드민 유저 전용**
+  
 - 상품 추가
 - 상품 상태 관리
-- 재고 관
+- 재고 관리
 
 # 3. 프로젝트 설계 및 개발
 
@@ -85,29 +84,32 @@
 
 - **Back**
 
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white"> ![](https://img.shields.io/badge/Java-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white">
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white"> ![](https://img.shields.io/badge/Java-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/SpringSecurity-DB33F?style=flat&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/MyBatis-007054?style=flat&logo=MyBatis&logoColor=white">  <img src="https://img.shields.io/badge/kakaoAPI-FFCD00?style=flat&logo=kakao&logoColor=white">
 
 - **Front**
 
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white">  ![](https://img.shields.io/badge/JSP-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/jquery-0769AD?style=flat&logo=jquery&logoColor=white"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white">  ![](https://img.shields.io/badge/JSP-007396?style=flat&logo=OpenJDK&logoColor=white") <img src="https://img.shields.io/badge/jquery-0769AD?style=flat&logo=jquery&logoColor=white"> <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white"> <img src="https://img.shields.io/badge/AJAX-5A29E4?style=flat&logo=AJAX&logoColor=white">
 
 - **DB**
 
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"> <img src="https://img.shields.io/badge/MyBatis-007054?style=flat&logo=MyBatis&logoColor=white">
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"> 
 
 - **Cloud**
   
-<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat&logo=Amazon AWS&logoColor=white">  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat&logo=Amazon RDS&logoColor=white"> 
+<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat&logo=Amazon AWS&logoColor=white">  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat&logo=Amazon EC2&logoColor=white"> 
 
-- **기타**
-  
-<img src="https://img.shields.io/badge/RestTemplate-6DB33F?style=flat&logo=Spring Boot&logoColor=white">  <img src="https://img.shields.io/badge/SpringSecurity-DB33F?style=flat&logo=springsecurity&logoColor=white"> <img src="https://img.shields.io/badge/AJAX-5A29E4?style=flat&logo=AJAX&logoColor=white"> <img src="https://img.shields.io/badge/kakaoAPI-FFCD00?style=flat&logo=kakao&logoColor=white"> <img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white"> <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white">
+- **IDE**
+
+<img src="https://img.shields.io/badge/intellijidea-000000?style=flat&logo=intellijidea&logoColor=white">
+ 
+- **협력 툴 및 프로젝트 관리**
+
+ <img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white">  <img src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white"> 
 
 
 ## 2. 서비스 아키텍처
 
-![spring-mall-drawio](https://github.com/realsuperman/spring-mall/assets/66711073/f0b391d3-b623-42d7-ad57-3fcd6cb498d2)
-
+![spring-mall drawio](https://github.com/realsuperman/spring-mall/assets/66711073/ddd1a007-fed4-4e9a-82d2-7c91dd0bb785)
 
 ## 3. ERD
 
@@ -116,7 +118,7 @@
 
 
 # 4. 고민한 부분
-### 1. 프론트에서 form JSON 데이터 POST 요청을 보내는데, 컨트롤러에서 RequestParam ?
+**✔️ 프론트에서 form JSON 데이터 POST 요청을 보내는데, 컨트롤러에서 RequestParam ?**
 
 Body가 아닌 Param 으로 받는 것이 어색하나, 
 이때, AJAX 요청으로 수정하기 힘든 상황이였기에 form 으로 보낸다는 가정 하에서 Param으로 받아, 진행하였다.

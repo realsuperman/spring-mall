@@ -11,6 +11,7 @@ import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.dto.cart.CartItemDto;
 import com.example.shopping.dto.cart.PutInCartDto;
 import com.example.shopping.service.cart.CartService;
+import com.example.shopping.service.item.ItemService;
 import com.example.shopping.util.Util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +38,7 @@ import java.util.Set;
 public class CartController {
 //    private final Logger cart_log = LoggerFactory.getLogger(CartController.class);
     private final CartService cartService;
+    private final ItemService itemService;
     private CartPageVo pageVo;
 
     @GetMapping
@@ -77,8 +79,13 @@ public class CartController {
             //JSON 문자열을 Java 객체로 변환
             putInCartDto = objectMapper.readValue(jsonString, PutInCartDto.class);
             //insert logic.
-            cartService.register(putInCartDto, sessionConsumerId);
-
+            CartItem cartItem = cartService.checkAlreadyContained(putInCartDto.getItemId(), sessionConsumerId);
+            if(cartItem == null) {
+                cartService.register(putInCartDto, sessionConsumerId);
+            } else {
+                long updatedQuantity = cartItem.getItemQuantity() + putInCartDto.getItemQuantity();
+                cartService.modifyItemQuantity(cartItem.getCartId(), updatedQuantity);
+            }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

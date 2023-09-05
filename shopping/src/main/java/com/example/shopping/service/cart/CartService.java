@@ -2,9 +2,14 @@ package com.example.shopping.service.cart;
 
 import com.example.shopping.dao.cart.CartDao;
 import com.example.shopping.domain.cart.*;
+import com.example.shopping.domain.item.Item;
 import com.example.shopping.dto.cart.CartItemDto;
 import com.example.shopping.dto.cart.PutInCartDto;
+import com.example.shopping.exception.MessageException;
+import com.example.shopping.service.item.ItemService;
+import com.example.shopping.util.Util;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +21,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class CartService {
     private final CartDao cartDao;
+    private final ItemService itemService;
 
     /**
      * 현재 로그인한 회원의 장바구니 상품(들) 가져오기
@@ -50,20 +56,19 @@ public class CartService {
         List<CartItemDto> dtos = new ArrayList<>();
         for(CartItem cartItem : cartItems) {
             long itemId = cartItem.getItemId();
-            //hard coding start.
-            Long subTotalPricePerItem = 1_000_000 * cartItem.getItemQuantity();
+            Item item = itemService.getItemById(itemId);
+            Long subTotalPricePerItem = item.getItemPrice() * cartItem.getItemQuantity();
             boolean isExcluded = excludedSet.contains(itemId);
             CartItemDto cartItemDto = CartItemDto.builder()
                     .itemId(itemId)
-                    .itemName("갤럭시노트 20")
-                    .itemPrice(1_000_000L)
+                    .itemName(item.getItemName())
+                    .itemPrice(item.getItemPrice())
                     .itemQuantity(cartItem.getItemQuantity())
-                    .itemImgPaths("https://picsum.photos/90")
+                    .itemImgPaths(Util.Img.getThumbnail(item.getItemImagePath()))
                     .subTotalPrice(subTotalPricePerItem)
                     .cartId(cartItem.getCartId())
                     .isExcluded(isExcluded)
                     .build();
-            //hard coding end.
             dtos.add(cartItemDto);
         }
         return dtos;
@@ -92,7 +97,7 @@ public class CartService {
     }
 
     public void removeByCartId(Long cartId) {
-        cartDao.deleteByCartId(cartId);
+        cartDao.deleteItemByCartId(cartId);
     }
 
     public void register(PutInCartDto putInCartDto, Long consumerId) {
@@ -102,5 +107,19 @@ public class CartService {
                 .consumerId(consumerId)
                 .build();
         cartDao.insert(vo);
+    }
+
+    /**
+     * consumer가 장바구니에 담은 상품이 이미 담겨져 있는지 체크
+     * @param cartId
+     * @return boolean
+     */
+    public CartItem checkAlreadyContained(Long itemId, Long consumerId) {
+        CartCheckVo vo = CartCheckVo.builder()
+                .itemId(itemId)
+                .consumerId(consumerId)
+                .build();
+        CartItem cartItemContained = cartDao.selectByItemId(vo);
+        return cartItemContained;
     }
 }

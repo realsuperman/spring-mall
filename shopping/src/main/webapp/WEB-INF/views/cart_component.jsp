@@ -44,7 +44,7 @@
                             </c:choose>
                             <td class="product__cart__item">
                                 <div class="product__cart__item__pic">
-                                    <img src="${cartItem.itemImgPaths}" alt="">
+                                    <img src="${cartItem.itemImgPaths}" alt="" style="width: 200px; height:100px;">
                                 </div>
                                 <div class="product__cart__item__text">
                                     <h6>${cartItem.itemName}</h6>
@@ -112,24 +112,27 @@
             <c:set var="sum" value="0" />
             <c:set var="sumDiscount" value="0" />
             <c:forEach items="${foundItemDtoAll}" var="cartItem">
-                <c:set var="discounted" value="${cartItem.subTotalPrice - (cartItem.subTotalPrice * discountRate)}" />
+                <c:set var="discounted" value="${cartItem.subTotalPrice - (cartItem.subTotalPrice * discount_rate)}" />
                 <c:if test="${cartItem.isExcluded == false}">
                     <input class="checked-item" type="hidden" value="${cartItem.itemId}" />
                     <input class="checked-cart" type="hidden" value="${cartItem.cartId}" />
+                    <input class="checked-price" type="hidden" value="${cartItem.itemPrice}" />
                     <input class="checked-quantity" type="hidden" value="${cartItem.itemQuantity}" />
                     <li class="checked-name" data-name="${cartItem.itemName}">${cartItem.itemName} <span style="color:#424242;font-weight:bolder;font-size:15px;" class="checked-discounted"><fmt:formatNumber value="${discounted}" pattern="#,##0" />원</span></li>
-                    <c:set var="sumDiscount" value="${sumDiscount + (cartItem.subTotalPrice * discountRate)}" />
+                    <c:set var="sumDiscount" value="${sumDiscount + (cartItem.subTotalPrice * discount_rate)}" />
                     <c:set var="sum" value="${sum + discounted}" />
                 </c:if>
             </c:forEach>
-            <li>멤버십등급 <span style="color:#424242;font-weight:bolder;font-size:15px;">다이아 ( <fmt:formatNumber value="10" pattern="0.0" />% <i class="fa-solid fa-caret-down"></i> )</span></li>
+            <li>멤버십등급 <span style="color:#424242;font-weight:bolder;font-size:15px;"> ${grade} ( <fmt:formatNumber value="${discount_rate*100}" pattern="0.0" />% <i class="fa-solid fa-caret-down"></i> )</span></li>
             <li>상품할인금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> <fmt:formatNumber value="${sumDiscount}" pattern="#,##0" />원</span></li>
             <li>상품금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> <fmt:formatNumber value="${sum}" pattern="#,##0" />원</span></li>
         </ul>
         <form id="form-order" action="/order" method="post">
-            <input type="text" name="orderItemDtoList" id="input-order"/>
+            <input type="hidden" name="orderItemDtoList" id="input-order"/>
             <button type="submit" class="primary-btn w-100">주문하기</button>
         </form>
     </div>
 </div>
-<script src="../../static/js/script.js"></script>
+
+<script src="../../static/js/script.js"> </script>
+

@@ -36,18 +36,25 @@
 
     <!-- toastr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 <body>
 
 <!-- Header Section -->
-<section class="shopping-cart spad">
-    <div class="container">
-        <div class="row" id="std-parents">
-            <!-- cart_component replace start. -->
-            <jsp:include page="/WEB-INF/views/cart_component.jsp" />
-            <!-- cart_component replace end. -->
+<%--<jsp:include page="common/header.jsp"></jsp:include>--%>
+<%--<div style="position: relative; z-index: 1;     margin-top: 44px;">--%>
+<%--    <jsp:include page="common/titleHeader.jsp"></jsp:include>--%>
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row" id="std-parents">
+                <!-- cart_component replace start. -->
+
+                <jsp:include page="cart_component.jsp" />
+                <!-- cart_component replace end. -->
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+<%--</div>--%>
 </body>

@@ -60,7 +60,7 @@ public class SecurityConfig {
 
         http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/item").hasRole("ADMIN")
-                .antMatchers("/", "/status", "/static/**", "/categories", "/itemDetail", "/itemJson", "/user/sign-page", "/user/sign-up", "/user/login").permitAll()
+                .antMatchers("/", "/status", "/static/**", "/categories", "/itemDetail", "/itemJson", "/user/sign-page", "/user/sign-up", "/user/login", "/error/denied", "/error/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/item").permitAll()
                 .anyRequest().authenticated();
 

@@ -232,6 +232,7 @@ $(function() {
         let itemNameArr = [];
         let itemQuantityArr = [];
         let eachDiscountedArr = [];
+        let eachPriceArr = [];
         let cartIdArr = [];
 
         $(".checked-item").each(function(){
@@ -256,6 +257,14 @@ $(function() {
             eachDiscountedArr.push(eachDiscounted);
         });
 
+        $(".checked-price").each(function(){
+            let eachPrice = $(this).val();
+            eachPrice = eachPrice.replace(/,/g, '');
+            eachPrice = eachPrice.replace(/원/g, '');
+            eachPriceArr.push(eachPrice);
+        });
+
+
         $(".checked-cart").each(function() {
             let cartId = $(this).val();
             cartIdArr.push(cartId);
@@ -267,7 +276,7 @@ $(function() {
             jsonFormat["itemId"] = itemIdArr[i];
             jsonFormat["itemName"] = itemNameArr[i];
             jsonFormat["itemQuantity"] = itemQuantityArr[i];
-            jsonFormat["itemPrice"] = eachDiscountedArr[i];
+            jsonFormat["itemPrice"] = eachPriceArr[i];
             jsonFormat["cartId"] = cartIdArr[i];
             datas.push(jsonFormat);
         }
@@ -277,7 +286,7 @@ $(function() {
             console.log("each: " + jsonData);
         }
         let jsonData = JSON.stringify(datas);
-        $("#input-order").val(datas);
+        $("#input-order").val(jsonData);
         let val = String($("#input-order").val()).trim();
         if(val == "") {
             alert("장바구니 상품을 1개 이상 선택해주세요.");

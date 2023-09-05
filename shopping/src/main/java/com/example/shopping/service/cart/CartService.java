@@ -95,7 +95,7 @@ public class CartService {
     }
 
     public void removeByCartId(Long cartId) {
-        cartDao.deleteByCartId(cartId);
+        cartDao.deleteItemByCartId(cartId);
     }
 
     public void register(PutInCartDto putInCartDto, Long consumerId) {

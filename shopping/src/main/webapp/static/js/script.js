@@ -34,7 +34,7 @@ $(function() {
     $(".page-no").on("click", function() {
         let nowPage = $(this).data("page");
         $.ajax({
-            url: "/sm/c/api/page",
+            url: "/cart/api/page",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage}),
             contentType: "application/json",
@@ -51,7 +51,7 @@ $(function() {
         let endPage = parseInt($("#page-end").val());
         let nowPage = endPage + 1;
         $.ajax({
-            url: "/sm/c/api/page",
+            url: "/cart/api/page",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage}),
             contentType: "application/json",
@@ -68,7 +68,7 @@ $(function() {
         let beginPage = parseInt($("#page-begin").val());
         let nowPage = beginPage - 1;
         $.ajax({
-            url: "/sm/c/api/page",
+            url: "/cart/api/page",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage}),
             contentType: "application/json",
@@ -85,12 +85,13 @@ $(function() {
     //x button click -> delete.
     $(".btn-delete").on("click", function() {
         let res = confirm("해당 상품을 장바구니에서 제거하시겠습니까?");
+
         if(res) {
             let cart = $(this).data("id");
             let nowPage = $("#page-now").val();
             $.LoadingOverlay("show");
             $.ajax({
-                url: "/sm/c/api/delete",
+                url: "/cart/api/delete",
                 type: "POST",
                 data: JSON.stringify({"nowPage": nowPage, "cartId": cart}),
                 contentType: "application/json",
@@ -120,7 +121,7 @@ $(function() {
         }
         $.LoadingOverlay("show");
         $.ajax({
-            url: "sm/c/api/update",
+            url: "/cart/api/update",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity": val}),
             contentType: "application/json",
@@ -144,7 +145,7 @@ $(function() {
         val = val + 1;
         $.LoadingOverlay("show");
         $.ajax({
-            url: "/sm/c/api/update",
+            url: "/cart/api/update",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity": val}),
             contentType: "application/json",
@@ -171,7 +172,7 @@ $(function() {
             }
             $.LoadingOverlay("show");
             $.ajax({
-                url: "/sm/c/api/update",
+                url: "/cart/api/update",
                 type: "POST",
                 data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity" : val}),
                 contentType: "application/json",
@@ -196,7 +197,7 @@ $(function() {
         if(!$(checkbox).is(":checked")) { //체크 풀었을 때
             console.log("excluded: ", cur); //체크가 안된 itemId를 감지
             $.ajax({
-                url: "/sm/c/api/v1",
+                url: "/cart/api/uncheck",
                 type: "POST",
                 data: JSON.stringify({ "nowPage": nowPage, "excludedItemId" : cur}),
                 contentType: "application/json",
@@ -210,7 +211,7 @@ $(function() {
             });
         } else { //체크했을 때
             $.ajax({
-                url: "/sm/c/api/v2",
+                url: "/cart/api/check",
                 type: "POST",
                 data: JSON.stringify({ "nowPage": nowPage, "includedItemId" : cur}),
                 contentType: "application/json",
@@ -226,12 +227,12 @@ $(function() {
     });
 
     //order button click.
-    $("#form-order").submit(function(event){
-        event.preventDefault();
+    $("#form-order").submit(function(){
         let itemIdArr = [];
         let itemNameArr = [];
         let itemQuantityArr = [];
         let eachDiscountedArr = [];
+        let eachPriceArr = [];
         let cartIdArr = [];
 
         $(".checked-item").each(function(){
@@ -256,6 +257,14 @@ $(function() {
             eachDiscountedArr.push(eachDiscounted);
         });
 
+        $(".checked-price").each(function(){
+            let eachPrice = $(this).val();
+            eachPrice = eachPrice.replace(/,/g, '');
+            eachPrice = eachPrice.replace(/원/g, '');
+            eachPriceArr.push(eachPrice);
+        });
+
+
         $(".checked-cart").each(function() {
             let cartId = $(this).val();
             cartIdArr.push(cartId);
@@ -267,7 +276,7 @@ $(function() {
             jsonFormat["itemId"] = itemIdArr[i];
             jsonFormat["itemName"] = itemNameArr[i];
             jsonFormat["itemQuantity"] = itemQuantityArr[i];
-            jsonFormat["itemPrice"] = eachDiscountedArr[i];
+            jsonFormat["itemPrice"] = eachPriceArr[i];
             jsonFormat["cartId"] = cartIdArr[i];
             datas.push(jsonFormat);
         }
@@ -277,7 +286,7 @@ $(function() {
             console.log("each: " + jsonData);
         }
         let jsonData = JSON.stringify(datas);
-        $("#input-order").val(datas);
+        $("#input-order").val(jsonData);
         let val = String($("#input-order").val()).trim();
         if(val == "") {
             alert("장바구니 상품을 1개 이상 선택해주세요.");

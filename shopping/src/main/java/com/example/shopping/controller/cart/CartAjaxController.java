@@ -21,14 +21,14 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/sm/c")
+@RequestMapping("/cart/api")
 @RequiredArgsConstructor
 public class CartAjaxController {
     private final Logger cart_log = LoggerFactory.getLogger(CartAjaxController.class);
     private final CartService cartService;
     private CartPageVo pageVo;
 
-    @GetMapping("/api/get")
+    @GetMapping("/get")
     public String showComponent(Model model, HttpSession session) {
         cart_log.info("Cart Component here");
         Consumer consumer = Util.Session.getUser(session);
@@ -36,7 +36,6 @@ public class CartAjaxController {
 
         List<CartItem> foundCartItemAll = cartService.showByConsumerId(sessionConsumerId);
         if(foundCartItemAll.isEmpty()) {
-            cart_log.info("foundCartItemAll is null");
             model.addAttribute("errMsg", "장바구니에 담긴 상품이 없습니다.");
         }
 
@@ -54,7 +53,7 @@ public class CartAjaxController {
         model.addAttribute("pager", pager);
         return "cart_component";
     }
-    @PostMapping("/api/v1")
+    @PostMapping("/uncheck")
     public String addUnchecked(@RequestBody Map<String, Object> requestData, HttpSession session) {
         Consumer consumer = Util.Session.getUser(session);
         long sessionConsumerId = consumer.getConsumerId();
@@ -71,10 +70,10 @@ public class CartAjaxController {
         session.setAttribute("excludedSet", excludedSet);
 
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
-        return "redirect:/sm/c/api/get";
+        return "redirect:/cart/api/get";
     }
 
-    @PostMapping("/api/v2")
+    @PostMapping("/check")
     public String removeUnchecked(@RequestBody Map<String, Object> requestData, HttpSession session) {
         Consumer consumer = Util.Session.getUser(session);
         long sessionConsumerId = consumer.getConsumerId();
@@ -88,10 +87,10 @@ public class CartAjaxController {
         //세션에 업데이트된 HashSet 저장
         session.setAttribute("excludedSet", excludedSet);
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
-        return "redirect:/sm/c/api/get";
+        return "redirect:/cart/api/get";
     }
 
-    @PostMapping("/api/update")
+    @PostMapping("/update")
     public String updateItemQuantity(@RequestBody Map<String, String> requestData, HttpSession session) {
         Consumer consumer = Util.Session.getUser(session);
         long sessionConsumerId = consumer.getConsumerId();
@@ -102,20 +101,20 @@ public class CartAjaxController {
         long cartId = Long.valueOf(cartIdInt);
         cartService.modifyItemQuantity(cartId, itemQuantity);
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
-        return "redirect:/sm/c/api/get";
+        return "redirect:/cart/api/get";
     }
 
-    @PostMapping("/api/page")
+    @PostMapping("/page")
     public String movePage(@RequestBody Map<String, String> requestData, HttpSession session) {
         Consumer consumer = Util.Session.getUser(session);
         long sessionConsumerId = consumer.getConsumerId();
 
         int nowPage = Integer.parseInt((String)requestData.get("nowPage"));
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
-        return "redirect:/sm/c/api/get";
+        return "redirect:/cart/api/get";
     }
 
-    @PostMapping("/api/delete")
+    @PostMapping("/delete")
     public String removeItem(@RequestBody Map<String, String> requestData, HttpSession session) {
         Consumer consumer = Util.Session.getUser(session);
         long sessionConsumerId = consumer.getConsumerId();
@@ -125,6 +124,6 @@ public class CartAjaxController {
         long cartId = Long.valueOf(cartIdInt);
         cartService.removeByCartId(cartId);
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
-        return "redirect:/sm/c/api/get";
+        return "redirect:/cart/api/get";
     }
 }

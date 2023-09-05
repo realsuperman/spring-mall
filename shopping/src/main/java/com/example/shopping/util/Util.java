@@ -10,4 +10,9 @@ public class Util {
             return (Consumer)session.getAttribute("login_user");
         }
     }
+    public static class Img {
+        public static String getThumbnail(String itemImagePath) {
+            return "https://firebasestorage.googleapis.com/v0/b/shoppingmall-c6950.appspot.com/o/" + itemImagePath.split(";")[0] + "?alt=media";
+        }
+    }
 }

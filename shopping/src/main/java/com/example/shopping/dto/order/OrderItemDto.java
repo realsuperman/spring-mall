@@ -3,8 +3,9 @@ package com.example.shopping.dto.order;
 import lombok.*;
 
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 public class OrderItemDto {

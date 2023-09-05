@@ -22,6 +22,9 @@
         WHERE consumer_id = #{consumerId}
         LIMIT #{itemStartNo}, #{amount}
     </select>
+    <select id="selectByItemId" parameterType="CartCheckVo" resultType="cartItem">
+        SELECT * FROM cart_item WHERE consumer_id=#{consumerId} AND item_id=#{itemId}
+    </select>
     <insert id="insert" parameterType="CartInsertVo">
         INSERT INTO cart_item VALUES(#{itemId}, #{itemQuantity}, nextval('cart_seq'), #{consumerId})
     </insert>
@@ -30,8 +33,17 @@
         SET item_quantity=#{itemQuantity}
         WHERE cart_id=#{cartId}
     </update>
-    <delete id="deleteByCartId" parameterType="Long">
+    <delete id="deleteItemByCartId" parameterType="Long">
         DELETE FROM cart_item
         WHERE cart_id=#{_parameter}
+    </delete>
+
+    <delete id="deleteByCartId" parameterType="java.util.List">
+        DELETE FROM cart_item WHERE cart_id IN
+        <foreach collection="list" item="orderItemDto" separator=", " open="(" close=")">
+            <if test="orderItemDto.cartId != null">
+                #{orderItemDto.cartId}
+            </if>
+        </foreach>
     </delete>
 </mapper>

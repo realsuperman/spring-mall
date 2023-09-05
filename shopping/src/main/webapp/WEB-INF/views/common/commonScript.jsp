@@ -28,7 +28,8 @@
             data : form,
             async: false,
             success: function(result) {
-                let parsedObject = JSON.parse(JSON.stringify(result));
+                console.log(result);
+                let parsedObject = JSON.parse(result);
                 // sessionStorage.setItem('username', 'exampleUser');
                 // TODO 이 시점에서 세션에 값을 로직을 추가하기
                 // tid = parsedObject.tid;

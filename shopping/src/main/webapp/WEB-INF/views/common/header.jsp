@@ -101,7 +101,7 @@
   <%-- header script   --%>
   <script src="../../static/js/header-script.js"></script>
 
-  <script src="../../static/main-page/js/jquery-3.3.1.min.js"></script>
+<%--  <script src="../../static/main-page/js/jquery-3.3.1.min.js"></script>--%>
   <script src="../../static/main-page/js/bootstrap.min.js"></script>
   <script src="../../static/main-page/js/jquery.nice-select.min.js"></script>
   <script src="../../static/main-page/js/jquery.nicescroll.min.js"></script>
@@ -111,7 +111,6 @@
   <script src="../../static/main-page/js/mixitup.min.js"></script>
   <script src="../../static/main-page/js/owl.carousel.min.js"></script>
   <script src="../../static/main-page/js/main.js"></script>
-  <script src="../../static/js/jquery-3.3.1.min.js"></script>
 
 </body>
 

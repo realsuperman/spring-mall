@@ -118,7 +118,7 @@ public class ItemService {
         return itemDao.getItemCount(categoryId);
     }
 
-    private Item getItemById(long itemId) {
+    public Item getItemById(long itemId) {
         return itemDao.selectItemById(itemId);
     }
 

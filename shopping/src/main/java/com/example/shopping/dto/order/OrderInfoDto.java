@@ -5,8 +5,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 public class OrderInfoDto {

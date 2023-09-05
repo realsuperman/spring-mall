@@ -5,9 +5,11 @@ import com.example.shopping.domain.cart.*;
 import com.example.shopping.domain.item.Item;
 import com.example.shopping.dto.cart.CartItemDto;
 import com.example.shopping.dto.cart.PutInCartDto;
+import com.example.shopping.exception.MessageException;
 import com.example.shopping.service.item.ItemService;
 import com.example.shopping.util.Util;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -105,5 +107,19 @@ public class CartService {
                 .consumerId(consumerId)
                 .build();
         cartDao.insert(vo);
+    }
+
+    /**
+     * consumer가 장바구니에 담은 상품이 이미 담겨져 있는지 체크
+     * @param cartId
+     * @return boolean
+     */
+    public CartItem checkAlreadyContained(Long itemId, Long consumerId) {
+        CartCheckVo vo = CartCheckVo.builder()
+                .itemId(itemId)
+                .consumerId(consumerId)
+                .build();
+        CartItem cartItemContained = cartDao.selectByItemId(vo);
+        return cartItemContained;
     }
 }

@@ -18,4 +18,6 @@ public interface CartDao {
     void deleteByCartId(List<OrderItemDto> orderItemDtoList);
     void deleteItemByCartId(Long cartId);
     void insert(CartInsertVo vo);
+    CartItem selectByItemId(CartCheckVo vo);
+    CartItem selectByCartId(Long cartId);
 }

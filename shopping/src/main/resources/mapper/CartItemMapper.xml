@@ -22,6 +22,9 @@
         WHERE consumer_id = #{consumerId}
         LIMIT #{itemStartNo}, #{amount}
     </select>
+    <select id="selectByItemId" parameterType="CartCheckVo" resultType="cartItem">
+        SELECT * FROM cart_item WHERE consumer_id=#{consumerId} AND item_id=#{itemId}
+    </select>
     <insert id="insert" parameterType="CartInsertVo">
         INSERT INTO cart_item VALUES(#{itemId}, #{itemQuantity}, nextval('cart_seq'), #{consumerId})
     </insert>

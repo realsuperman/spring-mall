@@ -44,7 +44,7 @@
                             </c:choose>
                             <td class="product__cart__item">
                                 <div class="product__cart__item__pic">
-                                    <img src="${cartItem.itemImgPaths}" alt="">
+                                    <img src="${cartItem.itemImgPaths}" alt="" style="width: 200px; height:100px;">
                                 </div>
                                 <div class="product__cart__item__text">
                                     <h6>${cartItem.itemName}</h6>
@@ -122,7 +122,7 @@
                     <c:set var="sum" value="${sum + discounted}" />
                 </c:if>
             </c:forEach>
-            <li>멤버십등급 <span style="color:#424242;font-weight:bolder;font-size:15px;">다이아 ( <fmt:formatNumber value="10" pattern="0.0" />% <i class="fa-solid fa-caret-down"></i> )</span></li>
+            <li>멤버십등급 <span style="color:#424242;font-weight:bolder;font-size:15px;"> ${grade} ( <fmt:formatNumber value="${discountRate*100}" pattern="0.0" />% <i class="fa-solid fa-caret-down"></i> )</span></li>
             <li>상품할인금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> <fmt:formatNumber value="${sumDiscount}" pattern="#,##0" />원</span></li>
             <li>상품금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> <fmt:formatNumber value="${sum}" pattern="#,##0" />원</span></li>
         </ul>
@@ -132,4 +132,6 @@
         </form>
     </div>
 </div>
-<script src="../../static/js/script.js"></script>
+
+<script src="../../static/js/script.js"> </script>
+

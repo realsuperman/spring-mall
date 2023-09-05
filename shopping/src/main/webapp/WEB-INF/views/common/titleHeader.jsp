@@ -16,7 +16,7 @@
                     <div class="breadcrumb__text">
 
                         <c:choose>
-                            <c:when test="${pathUri == 'cart.jsp' || pathUri == 'cart_component.jsp' }" >
+                            <c:when test="${pathUri == 'cart.jsp'}" >
                                 <h4>Shopping Cart</h4>
                                 <div class="breadcrumb__links">
                                     <a href="/">Home</a>

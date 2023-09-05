@@ -85,6 +85,7 @@ $(function() {
     //x button click -> delete.
     $(".btn-delete").on("click", function() {
         let res = confirm("해당 상품을 장바구니에서 제거하시겠습니까?");
+
         if(res) {
             let cart = $(this).data("id");
             let nowPage = $("#page-now").val();
@@ -226,8 +227,7 @@ $(function() {
     });
 
     //order button click.
-    $("#form-order").submit(function(event){
-        event.preventDefault();
+    $("#form-order").submit(function(){
         let itemIdArr = [];
         let itemNameArr = [];
         let itemQuantityArr = [];

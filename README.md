@@ -109,8 +109,7 @@
 
 ## 2. 서비스 아키텍처
 
-![spring-mall-drawio](https://github.com/realsuperman/spring-mall/assets/66711073/f0b391d3-b623-42d7-ad57-3fcd6cb498d2)
-
+![spring-mall drawio](https://github.com/realsuperman/spring-mall/assets/66711073/ddd1a007-fed4-4e9a-82d2-7c91dd0bb785)
 
 ## 3. ERD
 

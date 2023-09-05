@@ -3,6 +3,9 @@ package com.example.shopping.util;
 import com.example.shopping.exception.MessageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 public class KakaoPayProcess {
@@ -13,13 +16,12 @@ public class KakaoPayProcess {
                 + "&partner_user_id=" + kakaoPayVO.getPartnerUserId()
                 + "&pg_token=" + kakaoPayVO.getPgToken();
 
-        ResponseEntity<String> result = null;
         try {
-            result = KakaoPayCommonProcess.getKakaoRestTemplate("https://kapi.kakao.com/v1/payment/approve", payloadData);
+            return KakaoPayCommonProcess.getKakaoRestTemplate("https://kapi.kakao.com/v1/payment/approve", payloadData).getStatusCode().value();
         } catch (Exception e) {
             log.error(e.getCause().getMessage());
+            throw new MessageException("결제 요청 오류");
         }
-        return result.getStatusCode().value();
     }
 
     public static int cancel(KakaoPayCancelVO kakaoPayCancelVO) {
@@ -28,12 +30,11 @@ public class KakaoPayProcess {
                 + "&cancel_amount=" + kakaoPayCancelVO.getCancelAmount()
                 + "&cancel_tax_free_amount=" + kakaoPayCancelVO.getCancelTaxFreeAmount();
 
-        ResponseEntity<String> result = null;
         try {
-            result = KakaoPayCommonProcess.getKakaoRestTemplate("https://kapi.kakao.com/v1/payment/cancel", payloadData);
+            return KakaoPayCommonProcess.getKakaoRestTemplate("https://kapi.kakao.com/v1/payment/cancel", payloadData).getStatusCode().value();
         } catch (Exception e) {
-            log.error(e.getCause().getMessage());
+            log.error(e.getMessage());
+            throw new MessageException("결제 취소 오류");
         }
-        return result.getStatusCode().value();
     }
 }

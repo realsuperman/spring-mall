@@ -67,15 +67,20 @@ public class KakaoPayController {
 
         log.info(orderRequestDto.toString());
 
-        orderService.order(customerId, orderRequestDto.getOrderInfoDto(), orderRequestDto.getOrderItemDtoList(), orderRequestDto.getKakaoPayVO());
+        try {
+            orderService.order(customerId, orderRequestDto.getOrderInfoDto(), orderRequestDto.getOrderItemDtoList(), orderRequestDto.getKakaoPayVO());
+        } catch (MessageException e) {
+            return "redirect:/";
+        }
         return "redirect:/";
     }
 
     @PutMapping("/cancel")
-    public void kakaoPayCancel(@RequestBody OrderCancelRequestDto orderCancelRequestDto) {
+    public ResponseEntity<?> kakaoPayCancel(@RequestBody OrderCancelRequestDto orderCancelRequestDto) {
         log.info(orderCancelRequestDto.getOrderCancelDtoList().toString());
         log.info(orderCancelRequestDto.getOrderSetId().toString());
 
         orderService.cancelOrder(orderCancelRequestDto.getOrderSetId(), orderCancelRequestDto.getOrderCancelDtoList());
+        return ResponseEntity.ok().build();
     }
 }

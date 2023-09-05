@@ -1,6 +1,10 @@
 package com.example.shopping.dao.cart;
 
 import com.example.shopping.domain.cart.*;
+
+import com.example.shopping.domain.cart.CartItem;
+
+import com.example.shopping.dto.order.OrderItemDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,6 +15,7 @@ public interface CartDao {
     CartItem selectByVo(CartSelectVo vo);
     List<CartItem> selectListWithPaging(CartPageVo vo);
     void updateItemQuantityByCartId(CartUpdateVo vo);
-    void deleteByCartId(Long cartId);
+    void deleteByCartId(List<OrderItemDto> orderItemDtoList);
+    void deleteItemByCartId(Long cartId);
     void insert(CartInsertVo vo);
 }

@@ -30,8 +30,17 @@
         SET item_quantity=#{itemQuantity}
         WHERE cart_id=#{cartId}
     </update>
-    <delete id="deleteByCartId" parameterType="Long">
+    <delete id="deleteItemByCartId" parameterType="Long">
         DELETE FROM cart_item
         WHERE cart_id=#{_parameter}
+    </delete>
+
+    <delete id="deleteByCartId" parameterType="java.util.List">
+        DELETE FROM cart_item WHERE cart_id IN
+        <foreach collection="list" item="orderItemDto" separator=", " open="(" close=")">
+            <if test="orderItemDto.cartId != null">
+                #{orderItemDto.cartId}
+            </if>
+        </foreach>
     </delete>
 </mapper>
